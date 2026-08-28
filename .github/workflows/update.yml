@@ -15,18 +15,58 @@ permissions:
 jobs:
   update:
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v5
 
-      - name: Fetch & merge
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Fetch, merge and rename configs
+        shell: bash
         run: |
-          touch /tmp/all.txt
-          while IFS= read -r url; do
+          set -u
+
+          : > /tmp/all.txt
+          : > /tmp/src.txt
+
+          if [ ! -f sources.txt ]; then
+            echo "ERROR: sources.txt not found in repository root"
+            exit 1
+          fi
+
+          while IFS= read -r url || [ -n "$url" ]; do
+            url="$(echo "$url" | xargs)"
             [ -z "$url" ] && continue
-            curl -sL -A "v2rayNG/1.9.16" "$url" -o /tmp/src.txt
-                      grep -E '^(vless|vmess|trojan|ss|hysteria2|tuic)://' /tmp/all.txt | sort -u > /tmp/raw_configs.txt
+            [[ "$url" == \#* ]] && continue
+
+            echo "Fetching source..."
+
+            if curl -fLsS \
+              --connect-timeout 15 \
+              --max-time 45 \
+              -A "v2rayNG/1.9.16" \
+              "$url" \
+              -o /tmp/src.txt; then
+
+              if grep -qE '^(vless|vmess|trojan|ss|hysteria2|tuic)://' /tmp/src.txt; then
+                cat /tmp/src.txt >> /tmp/all.txt
+              else
+                # تلاش برای decode خروجی Base64
+                base64 -d -i /tmp/src.txt 2>/dev/null >> /tmp/all.txt || true
+              fi
+            else
+              echo "Source failed, skipping"
+            fi
+          done < sources.txt
+
+          grep -E '^(vless|vmess|trojan|ss|hysteria2|tuic)://' \
+            /tmp/all.txt | sort -u > /tmp/raw_configs.txt || true
+
+          echo "Raw configs: $(wc -l < /tmp/raw_configs.txt)"
 
           python3 - <<'PY'
+          import base64
           import json
           import re
           import socket
@@ -34,40 +74,55 @@ jobs:
           import urllib.request
           from pathlib import Path
 
-          protocols = r"^(vless|vmess|trojan|ss|hysteria2|tuic)://"
-          cache_file = Path("/tmp/geo-cache.json")
+          PROTOCOL_RE = re.compile(
+              r"^(vless|vmess|trojan|ss|hysteria2|tuic)://",
+              re.IGNORECASE
+          )
 
-          try:
-              geo_cache = json.loads(cache_file.read_text())
-          except Exception:
-              geo_cache = {}
+          geo_cache = {}
 
-          def flag(country_code):
+          def country_flag(country_code):
               country_code = (country_code or "").upper()
+
               if len(country_code) != 2 or not country_code.isalpha():
                   return "🌐"
-              return "".join(chr(127397 + ord(c)) for c in country_code)
 
-          def get_host(line):
-              # حذف fragment قبلی
-              without_fragment = line.split("#", 1)[0]
+              return "".join(
+                  chr(127397 + ord(char))
+                  for char in country_code
+              )
+
+          def extract_host(line):
+              """
+              استخراج host از لینک‌های استاندارد مثل:
+              vless://uuid@host:443
+              trojan://password@host:443
+              ss://base64@host:port
+              """
+              base = line.split("#", 1)[0].strip()
 
               try:
-                  parsed = urllib.parse.urlsplit(without_fragment)
-                  host = parsed.hostname
-                  if host:
-                      return host.strip("[]")
+                  parsed = urllib.parse.urlsplit(base)
+
+                  if parsed.hostname:
+                      return parsed.hostname.strip("[]")
               except Exception:
                   pass
 
+              # fallback برای فرمت‌هایی که urlsplit نتواند بخواند
+              match = re.search(r"@([^:/?#]+)", base)
+
+              if match:
+                  return match.group(1)
+
               return None
 
-          def get_ip(host):
+          def resolve_ip(host):
               if not host:
                   return None
 
-              # اگر خودش IP است
-              if re.match(r"^[0-9]+(?:\.[0-9]+){3}$", host):
+              # IPv4
+              if re.fullmatch(r"\d{1,3}(?:\.\d{1,3}){3}", host):
                   return host
 
               try:
@@ -75,7 +130,7 @@ jobs:
               except Exception:
                   return None
 
-          def get_country(ip):
+          def get_country_flag(ip):
               if not ip:
                   return "🌐"
 
@@ -83,15 +138,20 @@ jobs:
                   return geo_cache[ip]
 
               try:
-                  req = urllib.request.Request(
+                  request = urllib.request.Request(
                       f"https://ipwho.is/{urllib.parse.quote(ip)}",
-                      headers={"User-Agent": "DGDreams-Config-Updater/1.0"}
+                      headers={
+                          "User-Agent": "DGDreams-Config-Updater/1.0"
+                      }
                   )
-                  with urllib.request.urlopen(req, timeout=8) as response:
-                      data = json.loads(response.read().decode("utf-8"))
 
-                  country_code = data.get("country_code", "")
-                  result = flag(country_code)
+                  with urllib.request.urlopen(request, timeout=8) as response:
+                      data = json.loads(
+                          response.read().decode("utf-8")
+                      )
+
+                  result = country_flag(data.get("country_code"))
+
               except Exception:
                   result = "🌐"
 
@@ -100,85 +160,128 @@ jobs:
 
           def rename_config(line):
               line = line.strip()
-              if not re.match(protocols, line):
+
+              if not PROTOCOL_RE.match(line):
                   return None
 
-              # fragment قبلی را حذف می‌کنیم
-              base = line.split("#", 1)[0]
-              host = get_host(base)
-              ip = get_ip(host)
-              country_flag = get_country(ip)
+              # حذف نام قبلی
+              base = line.split("#", 1)[0].strip()
 
-              # فاصله و پرچم را برای URI به‌صورت امن encode می‌کنیم
-              new_name = urllib.parse.quote(f"DGDreams {country_flag}", safe="")
-              return f"{base}#{new_name}"
+              host = extract_host(base)
+              ip = resolve_ip(host)
+              flag = get_country_flag(ip)
 
-          output = set()
+              # نام جدید همه کانفیگ‌ها
+              return f"{base}#DGDreams {flag}"
 
-          for raw_line in Path("/tmp/raw_configs.txt").read_text(
+          configs = set()
+
+          raw_text = Path("/tmp/raw_configs.txt").read_text(
               encoding="utf-8",
               errors="ignore"
-          ).splitlines():
-              result = rename_config(raw_line)
-              if result:
-                  output.add(result)
+          )
 
-          configs = sorted(output)
+          for line in raw_text.splitlines():
+              renamed = rename_config(line)
+
+              if renamed:
+                  configs.add(renamed)
+
+          configs = sorted(configs)
+
+          output = (
+              "\n".join(configs) + "\n"
+              if configs
+              else ""
+          )
 
           Path("configs.txt").write_text(
-              "\n".join(configs) + ("\n" if configs else ""),
+              output,
               encoding="utf-8"
           )
 
-          cache_file.write_text(
-              json.dumps(geo_cache, ensure_ascii=False),
+          Path("configs_base64.txt").write_text(
+              base64.b64encode(
+                  output.encode("utf-8")
+              ).decode("ascii"),
               encoding="utf-8"
           )
+
+          print(f"Final configs: {len(configs)}")
           PY
 
-          base64 -w0 configs.txt > configs_base64.txt
-
-          done < sources.txt
-          grep -E '^(vless|vmess|trojan|ss|hysteria2|tuic)://' /tmp/all.txt | sort -u > configs.txt
-          base64 -w0 configs.txt > configs_base64.txt
-
       - name: Verify output
+        shell: bash
         run: |
-          echo "count: $(wc -l < configs.txt)"
+          echo "Config count:"
+          wc -l < configs.txt
+
+          echo
+          echo "First 5 configs:"
           head -5 configs.txt
+
+          if [ ! -s configs.txt ]; then
+            echo "ERROR: configs.txt is empty"
+            exit 1
+          fi
 
       - name: Compute diff
         id: diff
+        shell: bash
         run: |
           if git cat-file -e HEAD:configs.txt 2>/dev/null; then
-            git show HEAD:configs.txt | grep -E '^(vless|vmess|trojan|ss|hysteria2|tuic)://' | sort -u > /tmp/old.txt
+            git show HEAD:configs.txt \
+              | grep -E '^(vless|vmess|trojan|ss|hysteria2|tuic)://' \
+              | sort -u > /tmp/old.txt || true
+
             echo "first_run=no" >> "$GITHUB_OUTPUT"
           else
-            touch /tmp/old.txt
+            : > /tmp/old.txt
             echo "first_run=yes" >> "$GITHUB_OUTPUT"
           fi
+
           comm -13 /tmp/old.txt configs.txt > /tmp/added.txt
           comm -23 /tmp/old.txt configs.txt > /tmp/removed.txt
-          echo "added=$(wc -l < /tmp/added.txt)"     >> "$GITHUB_OUTPUT"
-          echo "removed=$(wc -l < /tmp/removed.txt)" >> "$GITHUB_OUTPUT"
 
-      - name: Commit & push
+          added_count="$(wc -l < /tmp/added.txt | tr -d ' ')"
+          removed_count="$(wc -l < /tmp/removed.txt | tr -d ' ')"
+
+          echo "added=$added_count" >> "$GITHUB_OUTPUT"
+          echo "removed=$removed_count" >> "$GITHUB_OUTPUT"
+
+          echo "Added: $added_count"
+          echo "Removed: $removed_count"
+
+      - name: Commit and push
         if: steps.diff.outputs.added != '0' || steps.diff.outputs.removed != '0'
+        shell: bash
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
           git add configs.txt configs_base64.txt
-          git commit -m "🔄 auto update configs" || true
-          for i in 1 2 3; do
+
+          if git diff --cached --quiet; then
+            echo "No file changes to commit"
+            exit 0
+          fi
+
+          git commit -m "🔄 auto update configs"
+
+          for attempt in 1 2 3; do
             git fetch origin main
-            if git rebase -X theirs origin/main && git push origin main; then
-              echo "✔ pushed"
+
+            if git rebase -X theirs origin/main && git push origin HEAD:main; then
+              echo "Push successful"
               exit 0
             fi
-            echo "retry $i ..."
+
+            git rebase --abort 2>/dev/null || true
+            echo "Push attempt $attempt failed; retrying..."
             sleep 10
           done
-          echo "push failed after retries"
+
+          echo "Push failed after 3 attempts"
           exit 1
 
       - name: Send diff to Telegram
@@ -186,28 +289,81 @@ jobs:
         env:
           TG_BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN }}
           TG_CHAT_ID: ${{ secrets.TG_CHAT_ID }}
+        shell: bash
         run: |
-          python3 - <<'PYEOF'
-          import os, urllib.request, urllib.parse
+          python3 - <<'PY'
+          import os
+          import urllib.parse
+          import urllib.request
 
-          token = os.environ["TG_BOT_TOKEN"]; chat = os.environ["TG_CHAT_ID"]
+          token = os.environ.get("TG_BOT_TOKEN", "").strip()
+          chat_id = os.environ.get("TG_CHAT_ID", "").strip()
+
+          if not token:
+              raise SystemExit("TG_BOT_TOKEN is empty")
+
+          if not chat_id:
+              raise SystemExit("TG_CHAT_ID is empty")
+
           first_run = "${{ steps.diff.outputs.first_run }}" == "yes"
-          added   = open("/tmp/added.txt", encoding="utf-8").read().splitlines()
-          removed = open("/tmp/removed.txt", encoding="utf-8").read().splitlines()
-          total   = sum(1 for _ in open("configs.txt", encoding="utf-8"))
+
+          with open("/tmp/added.txt", encoding="utf-8") as file:
+              added = file.read().splitlines()
+
+          with open("/tmp/removed.txt", encoding="utf-8") as file:
+              removed = file.read().splitlines()
+
+          with open("configs.txt", encoding="utf-8") as file:
+              total = sum(
+                  1 for line in file
+                  if line.strip()
+              )
 
           if first_run:
-              msg = f"✅ ساب با {total} کانفیگ راه‌اندازی شد.\nاز این به بعد فقط تغییرات ارسال می‌شود."
+              message = (
+                  f"✅ ساب DGDreams با {total} کانفیگ راه‌اندازی شد.\n"
+                  "از این به بعد فقط تغییرات ارسال می‌شود."
+              )
           else:
-              msg = f"🔄 آپدیت ساب ({total} کانفیگ):\n\n"
-              if added:   msg += f"➕ اضافه شد ({len(added)}):\n" + "\n".join(added) + "\n\n"
-              if removed: msg += f"➖ حذف شد ({len(removed)}):\n" + "\n".join(removed)
+              message = f"🔄 آپدیت ساب DGDreams\n"
+              message += f"📦 تعداد فعلی: {total}\n\n"
 
-          for i in range(0, len(msg), 3900):
-              data = urllib.parse.urlencode({
-                  "chat_id": chat,
-                  "text": msg[i:i+3900],
+              if added:
+                  message += (
+                      f"➕ اضافه شد ({len(added)}):\n"
+                      + "\n".join(added)
+                      + "\n\n"
+                  )
+
+              if removed:
+                  message += (
+                      f"➖ حذف شد ({len(removed)}):\n"
+                      + "\n".join(removed)
+                  )
+
+          # ارسال در بخش‌های کمتر از محدودیت 4096 تلگرام
+          for start in range(0, len(message), 3800):
+              chunk = message[start:start + 3800]
+
+              payload = urllib.parse.urlencode({
+                  "chat_id": chat_id,
+                  "text": chunk,
                   "disable_web_page_preview": "true",
-              }).encode()
-              urllib.request.urlopen(f"https://api.telegram.org/bot{token}/sendMessage", data)
-          PYEOF
+              }).encode("utf-8")
+
+              request = urllib.request.Request(
+                  f"https://api.telegram.org/bot{token}/sendMessage",
+                  data=payload,
+                  method="POST"
+              )
+
+              with urllib.request.urlopen(request, timeout=20) as response:
+                  result = response.read().decode("utf-8")
+
+                  if '"ok":true' not in result:
+                      raise RuntimeError(
+                          f"Telegram API error: {result}"
+                      )
+
+          print("Telegram notification sent successfully")
+          PY
