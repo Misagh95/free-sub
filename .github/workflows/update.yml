@@ -24,11 +24,120 @@ jobs:
           while IFS= read -r url; do
             [ -z "$url" ] && continue
             curl -sL -A "v2rayNG/1.9.16" "$url" -o /tmp/src.txt
-            if grep -qE '^(vless|vmess|trojan|ss|hysteria2|tuic)://' /tmp/src.txt; then
-              cat /tmp/src.txt >> /tmp/all.txt
-            else
-              base64 -d /tmp/src.txt 2>/dev/null >> /tmp/all.txt || true
-            fi
+                      grep -E '^(vless|vmess|trojan|ss|hysteria2|tuic)://' /tmp/all.txt | sort -u > /tmp/raw_configs.txt
+
+          python3 - <<'PY'
+          import json
+          import re
+          import socket
+          import urllib.parse
+          import urllib.request
+          from pathlib import Path
+
+          protocols = r"^(vless|vmess|trojan|ss|hysteria2|tuic)://"
+          cache_file = Path("/tmp/geo-cache.json")
+
+          try:
+              geo_cache = json.loads(cache_file.read_text())
+          except Exception:
+              geo_cache = {}
+
+          def flag(country_code):
+              country_code = (country_code or "").upper()
+              if len(country_code) != 2 or not country_code.isalpha():
+                  return "🌐"
+              return "".join(chr(127397 + ord(c)) for c in country_code)
+
+          def get_host(line):
+              # حذف fragment قبلی
+              without_fragment = line.split("#", 1)[0]
+
+              try:
+                  parsed = urllib.parse.urlsplit(without_fragment)
+                  host = parsed.hostname
+                  if host:
+                      return host.strip("[]")
+              except Exception:
+                  pass
+
+              return None
+
+          def get_ip(host):
+              if not host:
+                  return None
+
+              # اگر خودش IP است
+              if re.match(r"^[0-9]+(?:\.[0-9]+){3}$", host):
+                  return host
+
+              try:
+                  return socket.gethostbyname(host)
+              except Exception:
+                  return None
+
+          def get_country(ip):
+              if not ip:
+                  return "🌐"
+
+              if ip in geo_cache:
+                  return geo_cache[ip]
+
+              try:
+                  req = urllib.request.Request(
+                      f"https://ipwho.is/{urllib.parse.quote(ip)}",
+                      headers={"User-Agent": "DGDreams-Config-Updater/1.0"}
+                  )
+                  with urllib.request.urlopen(req, timeout=8) as response:
+                      data = json.loads(response.read().decode("utf-8"))
+
+                  country_code = data.get("country_code", "")
+                  result = flag(country_code)
+              except Exception:
+                  result = "🌐"
+
+              geo_cache[ip] = result
+              return result
+
+          def rename_config(line):
+              line = line.strip()
+              if not re.match(protocols, line):
+                  return None
+
+              # fragment قبلی را حذف می‌کنیم
+              base = line.split("#", 1)[0]
+              host = get_host(base)
+              ip = get_ip(host)
+              country_flag = get_country(ip)
+
+              # فاصله و پرچم را برای URI به‌صورت امن encode می‌کنیم
+              new_name = urllib.parse.quote(f"DGDreams {country_flag}", safe="")
+              return f"{base}#{new_name}"
+
+          output = set()
+
+          for raw_line in Path("/tmp/raw_configs.txt").read_text(
+              encoding="utf-8",
+              errors="ignore"
+          ).splitlines():
+              result = rename_config(raw_line)
+              if result:
+                  output.add(result)
+
+          configs = sorted(output)
+
+          Path("configs.txt").write_text(
+              "\n".join(configs) + ("\n" if configs else ""),
+              encoding="utf-8"
+          )
+
+          cache_file.write_text(
+              json.dumps(geo_cache, ensure_ascii=False),
+              encoding="utf-8"
+          )
+          PY
+
+          base64 -w0 configs.txt > configs_base64.txt
+
           done < sources.txt
           grep -E '^(vless|vmess|trojan|ss|hysteria2|tuic)://' /tmp/all.txt | sort -u > configs.txt
           base64 -w0 configs.txt > configs_base64.txt
