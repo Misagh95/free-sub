@@ -1,0 +1,104 @@
+name: Auto Update Sub
+
+on:
+  schedule:
+    - cron: "0 */6 * * *"
+  workflow_dispatch:
+
+concurrency:
+  group: auto-update-sub
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Fetch & merge
+        run: |
+          touch /tmp/all.txt
+          while IFS= read -r url; do
+            [ -z "$url" ] && continue
+            curl -sL -A "v2rayNG/1.9.16" "$url" -o /tmp/src.txt
+            if grep -qE '^(vless|vmess|trojan|ss|hysteria2|tuic)://' /tmp/src.txt; then
+              cat /tmp/src.txt >> /tmp/all.txt
+            else
+              base64 -d /tmp/src.txt 2>/dev/null >> /tmp/all.txt || true
+            fi
+          done < sources.txt
+          grep -E '^(vless|vmess|trojan|ss|hysteria2|tuic)://' /tmp/all.txt | sort -u > configs.txt
+          base64 -w0 configs.txt > configs_base64.txt
+
+      - name: Verify output
+        run: |
+          echo "count: $(wc -l < configs.txt)"
+          head -5 configs.txt
+
+      - name: Compute diff
+        id: diff
+        run: |
+          if git cat-file -e HEAD:configs.txt 2>/dev/null; then
+            git show HEAD:configs.txt | grep -E '^(vless|vmess|trojan|ss|hysteria2|tuic)://' | sort -u > /tmp/old.txt
+            echo "first_run=no" >> "$GITHUB_OUTPUT"
+          else
+            touch /tmp/old.txt
+            echo "first_run=yes" >> "$GITHUB_OUTPUT"
+          fi
+          comm -13 /tmp/old.txt configs.txt > /tmp/added.txt
+          comm -23 /tmp/old.txt configs.txt > /tmp/removed.txt
+          echo "added=$(wc -l < /tmp/added.txt)"     >> "$GITHUB_OUTPUT"
+          echo "removed=$(wc -l < /tmp/removed.txt)" >> "$GITHUB_OUTPUT"
+
+      - name: Commit & push
+        if: steps.diff.outputs.added != '0' || steps.diff.outputs.removed != '0'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add configs.txt configs_base64.txt
+          git commit -m "🔄 auto update configs" || true
+          for i in 1 2 3; do
+            git fetch origin main
+            if git rebase -X theirs origin/main && git push origin main; then
+              echo "✔ pushed"
+              exit 0
+            fi
+            echo "retry $i ..."
+            sleep 10
+          done
+          echo "push failed after retries"
+          exit 1
+
+      - name: Send diff to Telegram
+        if: steps.diff.outputs.first_run == 'yes' || steps.diff.outputs.added != '0' || steps.diff.outputs.removed != '0'
+        env:
+          TG_BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN }}
+          TG_CHAT_ID: ${{ secrets.TG_CHAT_ID }}
+        run: |
+          python3 - <<'PYEOF'
+          import os, urllib.request, urllib.parse
+
+          token = os.environ["TG_BOT_TOKEN"]; chat = os.environ["TG_CHAT_ID"]
+          first_run = "${{ steps.diff.outputs.first_run }}" == "yes"
+          added   = open("/tmp/added.txt", encoding="utf-8").read().splitlines()
+          removed = open("/tmp/removed.txt", encoding="utf-8").read().splitlines()
+          total   = sum(1 for _ in open("configs.txt", encoding="utf-8"))
+
+          if first_run:
+              msg = f"✅ ساب با {total} کانفیگ راه‌اندازی شد.\nاز این به بعد فقط تغییرات ارسال می‌شود."
+          else:
+              msg = f"🔄 آپدیت ساب ({total} کانفیگ):\n\n"
+              if added:   msg += f"➕ اضافه شد ({len(added)}):\n" + "\n".join(added) + "\n\n"
+              if removed: msg += f"➖ حذف شد ({len(removed)}):\n" + "\n".join(removed)
+
+          for i in range(0, len(msg), 3900):
+              data = urllib.parse.urlencode({
+                  "chat_id": chat,
+                  "text": msg[i:i+3900],
+                  "disable_web_page_preview": "true",
+              }).encode()
+              urllib.request.urlopen(f"https://api.telegram.org/bot{token}/sendMessage", data)
+          PYEOF
