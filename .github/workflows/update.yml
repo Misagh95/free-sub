@@ -22,7 +22,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Fetch, merge and rename configs
+      - name: Fetch & merge
         shell: bash
         run: |
           set -u
@@ -31,7 +31,7 @@ jobs:
           : > /tmp/src.txt
 
           if [ ! -f sources.txt ]; then
-            echo "ERROR: sources.txt not found in repository root"
+            echo "ERROR: sources.txt not found"
             exit 1
           fi
 
@@ -42,28 +42,65 @@ jobs:
 
             echo "Fetching source..."
 
-            if curl -fLsS \
-              --connect-timeout 15 \
-              --max-time 45 \
+            if ! curl -fLsS \
+              --connect-timeout 20 \
+              --max-time 60 \
               -A "v2rayNG/1.9.16" \
-              "$url" \
-              -o /tmp/src.txt; then
-
-              if grep -qE '^(vless|vmess|trojan|ss|hysteria2|tuic)://' /tmp/src.txt; then
-                cat /tmp/src.txt >> /tmp/all.txt
-              else
-                # تلاش برای decode خروجی Base64
-                base64 -d -i /tmp/src.txt 2>/dev/null >> /tmp/all.txt || true
-              fi
-            else
+              "$url" -o /tmp/src.txt; then
               echo "Source failed, skipping"
+              continue
             fi
+
+            # اگر خروجی plain text بود
+            if grep -qiE '(vless|vmess|trojan|ss|hysteria2|tuic)://' /tmp/src.txt; then
+              cat /tmp/src.txt >> /tmp/all.txt
+              continue
+            fi
+
+            # اگر خروجی Base64 بود
+            tr -d '[:space:]' < /tmp/src.txt > /tmp/encoded.txt
+
+            python3 - <<'PY'
+          import base64
+          from pathlib import Path
+
+          value = Path("/tmp/encoded.txt").read_text(
+              encoding="utf-8",
+              errors="ignore"
+          ).strip()
+
+          try:
+              # تکمیل padding
+              value += "=" * ((4 - len(value) % 4) % 4)
+              decoded = base64.b64decode(value, validate=False)
+              text = decoded.decode("utf-8", errors="ignore")
+
+              Path("/tmp/decoded.txt").write_text(
+                  text,
+                  encoding="utf-8"
+              )
+          except Exception:
+              Path("/tmp/decoded.txt").write_text(
+                  "",
+                  encoding="utf-8"
+              )
+          PY
+
+            cat /tmp/decoded.txt >> /tmp/all.txt
           done < sources.txt
 
-          grep -E '^(vless|vmess|trojan|ss|hysteria2|tuic)://' \
+          grep -iE '^(vless|vmess|trojan|ss|hysteria2|tuic)://' \
             /tmp/all.txt | sort -u > /tmp/raw_configs.txt || true
 
           echo "Raw configs: $(wc -l < /tmp/raw_configs.txt)"
+
+          if [ ! -s /tmp/raw_configs.txt ]; then
+            echo "ERROR: no valid configs were found"
+            echo "Source response previews:"
+            head -c 300 /tmp/src.txt || true
+            exit 1
+          fi
+
 
           python3 - <<'PY'
           import base64
