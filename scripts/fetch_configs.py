@@ -11,7 +11,7 @@ from pathlib import Path
 
 PROTOCOL_RE = re.compile(
     r"^(vless|vmess|trojan|ss|hysteria2|tuic)://",
-    re.IGNORECASE,
+    re.IGNORECASE | re.MULTILINE,
 )
 
 USER_AGENT = "v2rayNG/1.9.16"
@@ -38,9 +38,7 @@ def is_plain_configs(data: bytes) -> bool:
 
 def decode_base64(data: bytes) -> str:
     """Try to base64-decode raw bytes, return decoded text or empty string."""
-    # strip whitespace and non-ASCII
     raw = re.sub(r"[^A-Za-z0-9+/=]", "", data.decode("ascii", errors="ignore"))
-    # pad
     raw += "=" * ((4 - len(raw) % 4) % 4)
     try:
         decoded = base64.b64decode(raw, validate=False)
@@ -56,7 +54,6 @@ def validate_line(line: str) -> bool:
         return False
     if not PROTOCOL_RE.match(line):
         return False
-    # basic structural check: must have @ and : after protocol
     base = line.split("#", 1)[0]
     if "@" not in base:
         return False
