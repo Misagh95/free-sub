@@ -24,9 +24,7 @@ def fetch_url(url: str) -> bytes | None:
     try:
         req = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
         with urllib.request.urlopen(req, timeout=MAX_TIMEOUT) as resp:
-            data = resp.read()
-            print(f"  → HTTP {resp.status}, {len(data)} bytes")
-            return data
+            return resp.read()
     except Exception as exc:
         print(f"  ✗ Failed: {exc}", file=sys.stderr)
         return None
@@ -34,22 +32,19 @@ def fetch_url(url: str) -> bytes | None:
 
 def is_plain_configs(data: bytes) -> bool:
     """Check if raw bytes contain plain-text config lines."""
-    try:
-        text = data.decode("utf-8", errors="ignore")
-    except Exception:
-        return False
+    text = data.decode("utf-8", errors="replace")
     return bool(PROTOCOL_RE.search(text))
 
 
 def decode_base64(data: bytes) -> str:
     """Try to base64-decode raw bytes, return decoded text or empty string."""
-    # strip whitespace
-    raw = re.sub(r"\s+", "", data.decode("ascii", errors="ignore"))
+    # strip whitespace and non-ASCII
+    raw = re.sub(r"[^A-Za-z0-9+/=]", "", data.decode("ascii", errors="ignore"))
     # pad
     raw += "=" * ((4 - len(raw) % 4) % 4)
     try:
         decoded = base64.b64decode(raw, validate=False)
-        return decoded.decode("utf-8", errors="ignore")
+        return decoded.decode("utf-8", errors="replace")
     except Exception:
         return ""
 
@@ -80,38 +75,35 @@ def main(sources_path: str = "sources.txt", output_path: str = "/tmp/raw_configs
         if not url or url.startswith("#"):
             continue
 
-        print(f"\nFetching: {url[:80]}...")
+        print(f"Fetching: {url[:80]}...")
         data = fetch_url(url)
         if data is None:
             continue
 
-        # Show first 200 chars for debugging
-        preview = data[:200].decode("utf-8", errors="replace")
-        print(f"  → Preview: {preview[:100]}...")
+        source_type = "unknown"
+        decoded_lines: list[str] = []
 
-        if is_plain_configs(data):
-            text = data.decode("utf-8", errors="ignore")
-            lines = text.splitlines()
-            valid = [l for l in lines if validate_line(l.strip())]
-            print(f"  → PLAIN TEXT: {len(lines)} lines, {len(valid)} valid configs")
-            all_lines.extend(valid)
-            continue
+        try:
+            if is_plain_configs(data):
+                text = data.decode("utf-8", errors="replace")
+                decoded_lines = text.splitlines()
+                source_type = "plain"
+            else:
+                b64_text = decode_base64(data)
+                if b64_text:
+                    decoded_lines = b64_text.splitlines()
+                    source_type = "base64"
+        except Exception as exc:
+            print(f"  ✗ Decode error: {exc}", file=sys.stderr)
 
-        # try base64
-        decoded = decode_base64(data)
-        if decoded:
-            lines = decoded.splitlines()
-            valid = [l for l in lines if validate_line(l.strip())]
-            print(f"  → BASE64: {len(lines)} lines, {len(valid)} valid configs")
-            all_lines.extend(valid)
-        else:
-            print(f"  → base64 decode failed, skipping")
+        valid = [l for l in decoded_lines if validate_line(l.strip())]
+        print(f"  → {source_type}: {len(decoded_lines)} lines, {len(valid)} valid")
+        all_lines.extend(valid)
 
     # deduplicate
     unique = sorted({line.strip() for line in all_lines})
 
-    print(f"\n{'='*50}")
-    print(f"Total raw: {len(all_lines)}, unique: {len(unique)}")
+    print(f"\nTotal raw: {len(all_lines)}, unique: {len(unique)}")
 
     if not unique:
         print("ERROR: no valid configs were found", file=sys.stderr)
