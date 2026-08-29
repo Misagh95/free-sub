@@ -20,15 +20,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v5
         with:
-          fetch-depth: 0
+          fetch-depth: 1
 
       - name: Fetch & merge
         shell: bash
         run: |
-          set -u
+          set -eu
 
           : > /tmp/all.txt
-          : > /tmp/src.txt
 
           if [ ! -f sources.txt ]; then
             echo "ERROR: sources.txt not found"
@@ -39,6 +38,9 @@ jobs:
             url="$(echo "$url" | xargs)"
             [ -z "$url" ] && continue
             [[ "$url" == \#* ]] && continue
+
+            # پاک‌سازی فایل‌های موقت قبل از هر iteration
+            rm -f /tmp/src.txt /tmp/encoded.txt /tmp/decoded.txt
 
             echo "Fetching source..."
 
@@ -250,6 +252,8 @@ jobs:
       - name: Verify output
         shell: bash
         run: |
+          set -eu
+
           echo "Config count:"
           wc -l < configs.txt
 
@@ -266,10 +270,12 @@ jobs:
         id: diff
         shell: bash
         run: |
+          set -eu
+
           if git cat-file -e HEAD:configs.txt 2>/dev/null; then
             git show HEAD:configs.txt \
               | grep -E '^(vless|vmess|trojan|ss|hysteria2|tuic)://' \
-              | sort -u > /tmp/old.txt || true
+              | LC_ALL=C sort -u > /tmp/old.txt || true
 
             echo "first_run=no" >> "$GITHUB_OUTPUT"
           else
@@ -277,8 +283,11 @@ jobs:
             echo "first_run=yes" >> "$GITHUB_OUTPUT"
           fi
 
-          comm -13 /tmp/old.txt configs.txt > /tmp/added.txt
-          comm -23 /tmp/old.txt configs.txt > /tmp/removed.txt
+          # استفاده از LC_ALL=C sort برای تطابق با sort قبلی
+          LC_ALL=C sort -u configs.txt > /tmp/new_sorted.txt
+
+          comm -13 /tmp/old.txt /tmp/new_sorted.txt > /tmp/added.txt
+          comm -23 /tmp/old.txt /tmp/new_sorted.txt > /tmp/removed.txt
 
           added_count="$(wc -l < /tmp/added.txt | tr -d ' ')"
           removed_count="$(wc -l < /tmp/removed.txt | tr -d ' ')"
@@ -293,6 +302,8 @@ jobs:
         if: steps.diff.outputs.added != '0' || steps.diff.outputs.removed != '0'
         shell: bash
         run: |
+          set -eu
+
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
