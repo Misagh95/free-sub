@@ -85,30 +85,32 @@ def main(sources_path: str = "sources.txt", output_path: str = "/tmp/raw_configs
 
         if is_plain_configs(data):
             text = data.decode("utf-8", errors="ignore")
-            all_lines.extend(text.splitlines())
+            lines = text.splitlines()
+            valid = [l for l in lines if validate_line(l.strip())]
+            print(f"  → plain text: {len(lines)} lines, {len(valid)} valid configs")
+            all_lines.extend(valid)
             continue
 
         # try base64
         decoded = decode_base64(data)
         if decoded:
-            all_lines.extend(decoded.splitlines())
+            lines = decoded.splitlines()
+            valid = [l for l in lines if validate_line(l.strip())]
+            print(f"  → base64 decoded: {len(lines)} lines, {len(valid)} valid configs")
+            all_lines.extend(valid)
+        else:
+            print(f"  → base64 decode failed, skipping")
 
-    # filter valid config lines
-    valid = sorted(
-        {
-            line.strip()
-            for line in all_lines
-            if validate_line(line)
-        }
-    )
+    # deduplicate
+    unique = sorted({line.strip() for line in all_lines})
 
-    print(f"Raw configs: {len(valid)}")
+    print(f"\nTotal raw: {len(all_lines)}, unique: {len(unique)}")
 
-    if not valid:
+    if not unique:
         print("ERROR: no valid configs were found", file=sys.stderr)
         sys.exit(1)
 
-    Path(output_path).write_text("\n".join(valid) + "\n", encoding="utf-8")
+    Path(output_path).write_text("\n".join(unique) + "\n", encoding="utf-8")
     print(f"Written to {output_path}")
 
 
