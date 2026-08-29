@@ -9,3 +9,5 @@ https://node-6981751952-23fa44.omoaimama.workers.dev/eaa45fe670c5d50226869891929
 https://node-6981751952-1fda01.narmadeges.workers.dev/238f1360439c9f3ee6da0b19b5766629/sub/normal/xray?app=xray
 https://node-6981751952-eaeb6e.mobinnanni.workers.dev/5201dbdfa599f22da023b90b522e0e8f/sub/normal/xray?app=xray
 https://node-6981751952-6465d4.nomavagiba.workers.dev/044b4b91ee51361a397ec6c14ef5169d/sub/normal/xray?app=xray
+# ─── External Sources ───────────────────
+https://raw.githubusercontent.com/patterniha/Free-Configs/main/configs.txt
