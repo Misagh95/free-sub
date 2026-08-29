@@ -3,7 +3,7 @@ https://core-89c681-f98146.narmadeges.workers.dev/3e5cba6f235ebc6ff6e8d37769e364
 https://core-07994c-39ca4a.mobinnanni.workers.dev/39dd1a84d9cc3031c6cb451268bedbe8/sub/normal?app=xray
 https://api-2c3732-85768b.nomavagiba.workers.dev/aed112c89cc47c3ec4339da5464b8a79/sub/normal?app=xray
 https://web-e9b41b-0d660d.sheikhihamid90.workers.dev/e036e6655ad21b7b6b1f1a729c859e52/sub/normal?app=xray
-https://app-dd0aff-f77478.sheikhihamid90.workers.dev/sub?token=30d5a153fccd70f8d21f01187cf6dde4
+https://app-dd0aff-f77478.sheikhihamid90.workers.dev/sub?token=__TOKEN__
 https://node-6981751952-ce4104.mobinnanni.workers.dev/8a68af3fbc94d42c9860f9552f7c5793
 https://node-6981751952-23fa44.omoaimama.workers.dev/eaa45fe670c5d50226869891929fdcff/sub/normal/xray?app=xray
 https://node-6981751952-1fda01.narmadeges.workers.dev/238f1360439c9f3ee6da0b19b5766629/sub/normal/xray?app=xray

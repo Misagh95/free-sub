@@ -1,0 +1,39 @@
+# Free Sub - Auto Update VPN Configs
+
+Automatic subscription updater that fetches VPN configs from multiple Cloudflare Workers sources, deduplicates and renames them with DGDreams branding, and publishes updates.
+
+## How It Works
+
+1. **Fetch** — Reads source URLs from `sources.txt`, downloads configs (plain-text or Base64-encoded)
+2. **Rename** — Resolves each server's IP, looks up its country, and appends `#DGDreams 🏳️` to every config
+3. **Deduplicate** — Removes duplicate configs and sorts them
+4. **Commit & Push** — Auto-commits changes to `configs.txt` and `configs_base64.txt`
+5. **Notify** — Sends a summary of added/removed configs to Telegram
+
+## Files
+
+| File | Description |
+|------|-------------|
+| `sources.txt` | List of source URLs (one per line, `#` for comments) |
+| `configs.txt` | Plain-text output — one config per line |
+| `configs_base64.txt` | Base64-encoded version of `configs.txt` for subscription clients |
+| `scripts/fetch_configs.py` | Fetches and decodes configs from sources |
+| `scripts/rename_configs.py` | Renames configs with DGDreams branding and country flags |
+| `scripts/notify_telegram.py` | Sends Telegram notifications |
+
+## Setup
+
+1. **Fork** this repository
+2. Add these **GitHub Secrets**:
+   - `SUB_TOKEN` — Subscription token (replaces `__TOKEN__` in `sources.txt`)
+   - `TG_BOT_TOKEN` — Telegram bot token for notifications
+   - `TG_CHAT_ID` — Telegram chat ID for notifications
+3. The workflow runs every 6 hours automatically, or trigger manually from the **Actions** tab
+
+## Supported Protocols
+
+`vless://` · `vmess://` · `trojan://` · `ss://` · `hysteria2://` · `tuic://`
+
+## License
+
+Public — use freely.
