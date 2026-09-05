@@ -12,3 +12,4 @@ https://node-6981751952-6465d4.nomavagiba.workers.dev/044b4b91ee51361a397ec6c14e
 # ─── External Sources ───────────────────
 https://raw.githubusercontent.com/patterniha/Free-Configs/main/configs.txt
 https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/refs/heads/main/top100.txt
+https://github.com/barry-far/V2ray-Config/tree/main/Base64
