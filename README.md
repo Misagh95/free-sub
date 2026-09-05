@@ -32,7 +32,7 @@ Automatic subscription updater that fetches VPN configs from multiple Cloudflare
    - `SUB_TOKEN` — Subscription token (replaces `__TOKEN__` in `sources.txt`)
    - `TG_BOT_TOKEN` — Telegram bot token for notifications
    - `TG_CHAT_ID` — Telegram chat ID for notifications
-   - `MULTI_REPO_TOKEN` — GitHub token with permission to create and push to repositories owned by the account. This is required for the generated shards; without it, the main subscription still updates normally.
+   - `MULTI_REPO_TOKEN` — GitHub token with permission to create and push to repositories owned by the account (a classic token with `repo` scope is the simplest option). This is required for the generated shards; without it, the main subscription still updates normally.
 3. The workflow runs every 6 hours automatically, or trigger manually from the **Actions** tab
 
 ## Multi-repository output
