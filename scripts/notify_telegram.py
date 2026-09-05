@@ -3,12 +3,15 @@
 Send clean Telegram notification with subscription link.
 """
 
+import html
+import json
 import os
 import re
 import urllib.parse
 import urllib.request
 from collections import Counter
 from datetime import datetime, timezone
+from pathlib import Path
 
 TG_API = "https://api.telegram.org/bot{token}/sendMessage"
 CHUNK_SIZE = 4000
@@ -49,11 +52,42 @@ def get_stats(configs: list[str]) -> tuple[Counter, Counter]:
     return protocols, flags
 
 
+def subscription_block(sub_url: str, manifest_path: str) -> str:
+    """Build the subscription-link section for Telegram."""
+    links = [("All configs", sub_url)]
+    path = Path(manifest_path)
+    if path.is_file():
+        try:
+            manifest = json.loads(path.read_text(encoding="utf-8"))
+            links.extend(
+                (item["name"], item["base64_url"])
+                for item in manifest.get("repositories", [])
+                if item.get("name") and item.get("base64_url")
+            )
+        except (OSError, json.JSONDecodeError, TypeError, KeyError):
+            # The main notification should still be sent if an optional
+            # generated manifest is unavailable or malformed.
+            pass
+
+    if len(links) == 1:
+        return (
+            "🔗 <b>Subscription Link</b>\n"
+            f"<code>{html.escape(links[0][1])}</code>"
+        )
+
+    lines = ["🔗 <b>Subscription Links</b>"]
+    for label, url in links:
+        lines.append(f"• <b>{html.escape(label)}</b>\n<code>{html.escape(url)}</code>")
+    return "\n".join(lines)
+
+
 def main() -> None:
     token = os.environ.get("TG_BOT_TOKEN", "").strip()
     chat_id = os.environ.get("TG_CHAT_ID", "").strip()
     first_run = os.environ.get("FIRST_RUN", "no") == "yes"
     sub_url = os.environ.get("SUB_URL", SUB_BASE_URL + "/configs_base64.txt").strip()
+    manifest_path = os.environ.get("REPOSITORY_MANIFEST", "/tmp/repositories/manifest.json")
+    links_block = subscription_block(sub_url, manifest_path)
 
     if not token:
         raise SystemExit("TG_BOT_TOKEN is empty")
@@ -88,9 +122,8 @@ def main() -> None:
             f"📊 {proto_str}\n"
             f"🌍 {flag_str}\n\n"
             f"━━━━━━━━━━━━━━━━━━━━\n\n"
-            f"🔗 <b>Subscription Link</b>\n"
-            f"<code>{sub_url}</code>\n\n"
-            f"<i>Copy the link above and import it in your VPN client.</i>"
+            f"{links_block}\n\n"
+            f"<i>Copy any link above and import it in your VPN client.</i>"
         )
     else:
         net = len(added) - len(removed)
@@ -113,11 +146,7 @@ def main() -> None:
         if added or removed:
             message += "\n"
 
-        message += (
-            f"━━━━━━━━━━━━━━━━━━━━\n\n"
-            f"🔗 <b>Subscription Link</b>\n"
-            f"<code>{sub_url}</code>"
-        )
+        message += f"━━━━━━━━━━━━━━━━━━━━\n\n{links_block}"
 
     send_message(token, chat_id, message)
     print("Telegram notification sent successfully")

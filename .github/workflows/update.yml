@@ -74,6 +74,17 @@ jobs:
 
           echo "✓ All lines are valid config URLs"
 
+      - name: Build multi-repository subscriptions
+        shell: bash
+        run: |
+          set -eu
+          python3 scripts/split_repositories.py \
+            configs.txt \
+            /tmp/repositories \
+            --owner "${{ github.repository_owner }}" \
+            --prefix "free-sub" \
+            --max-configs-per-repository 500
+
       - name: Compute diff
         id: diff
         shell: bash
@@ -135,12 +146,27 @@ jobs:
           echo "Push failed after 3 attempts"
           exit 1
 
+      - name: Publish subscription repositories
+        env:
+          GH_TOKEN: ${{ secrets.MULTI_REPO_TOKEN }}
+        shell: bash
+        run: |
+          set -eu
+          if [ -z "${GH_TOKEN:-}" ]; then
+            echo "::warning::MULTI_REPO_TOKEN is not configured; generated repository shards were not published"
+            exit 0
+          fi
+          python3 scripts/publish_repositories.py \
+            /tmp/repositories \
+            --owner "${{ github.repository_owner }}"
+
       - name: Send diff to Telegram
         if: steps.diff.outputs.first_run == 'yes' || steps.diff.outputs.added != '0' || steps.diff.outputs.removed != '0'
         env:
           TG_BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN }}
           TG_CHAT_ID: ${{ secrets.TG_CHAT_ID }}
           FIRST_RUN: ${{ steps.diff.outputs.first_run }}
+          REPOSITORY_MANIFEST: /tmp/repositories/published-manifest.json
         shell: bash
         run: |
           set -eu
