@@ -6,14 +6,14 @@ Automatic subscription updater that fetches VPN configs from multiple Cloudflare
 
 | # | Link | Description |
 |---|------|-------------|
-| 1 | `https://raw.githubusercontent.com/Misagh95/free-sub/main/configs_base64.txt` | **Combined** subscription (all Cloudflare Workers sources) |
-| 2 | `https://raw.githubusercontent.com/Misagh95/free-sub/main/patterniha_base64.txt` | patterniha / Free-Configs |
-| 3 | `https://raw.githubusercontent.com/Misagh95/free-sub/main/radikal_base64.txt` | 0xRadikal / Free-v2ray-Configs (top100) |
-| 4 | `https://raw.githubusercontent.com/Misagh95/free-sub/main/barryfar1_base64.txt` | barry-far / V2ray-config Sub1 |
-| 5 | `https://raw.githubusercontent.com/Misagh95/free-sub/main/barryfar2_base64.txt` | barry-far / V2ray-config Sub2 |
-| 6 | `https://raw.githubusercontent.com/Misagh95/free-sub/main/barryfar3_base64.txt` | barry-far / V2ray-config Sub3 |
+| 1 | `https://raw.githubusercontent.com/Misagh95/free-sub/main/configs_base64.txt` | **Combined** subscription (all sources) |
+| 2 | `https://raw.githubusercontent.com/Misagh95/free-sub/main/GLD1_base64.txt` | GLD1 |
+| 3 | `https://raw.githubusercontent.com/Misagh95/free-sub/main/GLD2_base64.txt` | GLD2 |
+| 4 | `https://raw.githubusercontent.com/Misagh95/free-sub/main/GLD3_base64.txt` | GLD3 |
+| 5 | `https://raw.githubusercontent.com/Misagh95/free-sub/main/GLD4_base64.txt` | GLD4 |
+| 6 | `https://raw.githubusercontent.com/Misagh95/free-sub/main/GLD5_base64.txt` | GLD5 |
 
-Plain-text versions use the same filename without `_base64` (e.g. `configs.txt`, `patterniha.txt`). Copy any link above into your VPN client.
+Plain-text versions use the same filename without `_base64` (e.g. `configs.txt`, `GLD1.txt`). Copy any link above into your VPN client.
 
 ## How It Works
 

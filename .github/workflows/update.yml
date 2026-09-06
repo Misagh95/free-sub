@@ -15,18 +15,18 @@ permissions:
 env:
   SUBSCRIPTION_FILES: >-
     configs.txt configs_base64.txt
-    patterniha.txt patterniha_base64.txt
-    radikal.txt radikal_base64.txt
-    barryfar1.txt barryfar1_base64.txt
-    barryfar2.txt barryfar2_base64.txt
-    barryfar3.txt barryfar3_base64.txt
+    GLD1.txt GLD1_base64.txt
+    GLD2.txt GLD2_base64.txt
+    GLD3.txt GLD3_base64.txt
+    GLD4.txt GLD4_base64.txt
+    GLD5.txt GLD5_base64.txt
   SUBSCRIPTION_TXT_FILES: >-
     configs.txt
-    patterniha.txt
-    radikal.txt
-    barryfar1.txt
-    barryfar2.txt
-    barryfar3.txt
+    GLD1.txt
+    GLD2.txt
+    GLD3.txt
+    GLD4.txt
+    GLD5.txt
 
 jobs:
   update:
