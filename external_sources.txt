@@ -1,0 +1,8 @@
+# External sources published as individual subscriptions.
+# Format: label<TAB>url   (one per line, # for comments)
+# Each source becomes its own sub-link: <label>.txt + <label>_base64.txt
+patterniha	https://raw.githubusercontent.com/patterniha/Free-Configs/main/configs.txt
+radikal	https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/refs/heads/main/top100.txt
+barryfar1	https://raw.githubusercontent.com/barry-far/V2ray-config/main/Sub1.txt
+barryfar2	https://raw.githubusercontent.com/barry-far/V2ray-config/main/Sub2.txt
+barryfar3	https://raw.githubusercontent.com/barry-far/V2ray-config/main/Sub3.txt

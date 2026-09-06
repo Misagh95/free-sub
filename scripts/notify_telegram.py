@@ -69,6 +69,19 @@ def subscription_block(sub_url: str, manifest_path: str) -> str:
             # generated manifest is unavailable or malformed.
             pass
 
+    external_path = os.environ.get("EXTERNAL_SUBS_MANIFEST", "/tmp/external_subs.json")
+    external = Path(external_path)
+    if external.is_file():
+        try:
+            manifest = json.loads(external.read_text(encoding="utf-8"))
+            links.extend(
+                (item["label"], item["base64_url"])
+                for item in manifest.get("subscriptions", [])
+                if item.get("label") and item.get("base64_url")
+            )
+        except (OSError, json.JSONDecodeError, TypeError, KeyError):
+            pass
+
     if len(links) == 1:
         return (
             "🔗 <b>Subscription Link</b>\n"

@@ -12,6 +12,22 @@ concurrency:
 permissions:
   contents: write
 
+env:
+  SUBSCRIPTION_FILES: >-
+    configs.txt configs_base64.txt
+    patterniha.txt patterniha_base64.txt
+    radikal.txt radikal_base64.txt
+    barryfar1.txt barryfar1_base64.txt
+    barryfar2.txt barryfar2_base64.txt
+    barryfar3.txt barryfar3_base64.txt
+  SUBSCRIPTION_TXT_FILES: >-
+    configs.txt
+    patterniha.txt
+    radikal.txt
+    barryfar1.txt
+    barryfar2.txt
+    barryfar3.txt
+
 jobs:
   update:
     runs-on: ubuntu-latest
@@ -48,10 +64,21 @@ jobs:
           set -eu
           python3 scripts/rename_configs.py /tmp/raw_configs.txt configs.txt configs_base64.txt
 
+      - name: Build external subscriptions
+        shell: bash
+        run: |
+          set -eu
+          python3 scripts/build_external_subs.py \
+            external_sources.txt \
+            . \
+            --base-url "https://raw.githubusercontent.com/${{ github.repository }}/main" \
+            --manifest /tmp/external_subs.json
+
       - name: Validate output
         shell: bash
         run: |
           set -eu
+          echo "Main subscription:"
           echo "Config count:"
           wc -l < configs.txt
           echo
@@ -73,6 +100,21 @@ jobs:
           fi
 
           echo "✓ All lines are valid config URLs"
+          echo
+
+          # external subscriptions (warn only — a source may be temporarily down)
+          for f in $SUBSCRIPTION_TXT_FILES; do
+            [ "$f" = "configs.txt" ] && continue
+            if [ ! -f "$f" ]; then
+              echo "⚠ $f missing (first successful fetch will create it)"
+              continue
+            fi
+            invalid=$(grep -cvE '^(vless|vmess|trojan|ss|hysteria2|tuic)://' "$f" || true)
+            echo "$f: $(wc -l < "$f" | tr -d ' ') configs"
+            if [ "$invalid" -gt 0 ]; then
+              echo "  ⚠ $invalid invalid lines"
+            fi
+          done
 
       - name: Build multi-repository subscriptions
         shell: bash
@@ -91,17 +133,23 @@ jobs:
         run: |
           set -eu
 
-          if git cat-file -e HEAD:configs.txt 2>/dev/null; then
-            git show HEAD:configs.txt \
-              | grep -E '^(vless|vmess|trojan|ss|hysteria2|tuic)://' \
-              | LC_ALL=C sort -u > /tmp/old.txt || true
-            echo "first_run=no" >> "$GITHUB_OUTPUT"
-          else
-            : > /tmp/old.txt
-            echo "first_run=yes" >> "$GITHUB_OUTPUT"
-          fi
+          : > /tmp/old.txt
+          : > /tmp/new_sorted.txt
+          first_run=yes
 
-          LC_ALL=C sort -u configs.txt > /tmp/new_sorted.txt
+          for f in $SUBSCRIPTION_TXT_FILES; do
+            [ -f "$f" ] || continue
+            grep -E '^(vless|vmess|trojan|ss|hysteria2|tuic)://' "$f" \
+              | LC_ALL=C sort -u >> /tmp/new_sorted.txt
+            if git cat-file -e "HEAD:$f" 2>/dev/null; then
+              git show "HEAD:$f" \
+                | grep -E '^(vless|vmess|trojan|ss|hysteria2|tuic)://' \
+                | LC_ALL=C sort -u >> /tmp/old.txt || true
+              first_run=no
+            fi
+          done
+
+          echo "first_run=$first_run" >> "$GITHUB_OUTPUT"
 
           comm -13 /tmp/old.txt /tmp/new_sorted.txt > /tmp/added.txt
           comm -23 /tmp/old.txt /tmp/new_sorted.txt > /tmp/removed.txt
@@ -123,7 +171,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          git add configs.txt configs_base64.txt
+          git add $SUBSCRIPTION_FILES
 
           if git diff --cached --quiet; then
             echo "No file changes to commit"
@@ -167,7 +215,8 @@ jobs:
           TG_CHAT_ID: ${{ secrets.TG_CHAT_ID }}
           FIRST_RUN: ${{ steps.diff.outputs.first_run }}
           REPOSITORY_MANIFEST: /tmp/repositories/published-manifest.json
+          EXTERNAL_SUBS_MANIFEST: /tmp/external_subs.json
         shell: bash
         run: |
           set -eu
-          python3 scripts/notify_telegram.py
+          python3 scripts/notify_telegram.py

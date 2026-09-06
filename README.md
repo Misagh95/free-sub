@@ -1,26 +1,43 @@
 # Free Sub - Auto Update VPN Configs
 
-Automatic subscription updater that fetches VPN configs from multiple Cloudflare Workers sources, deduplicates and renames them with DGDreams branding, and publishes updates. The complete subscription remains in this repository, while smaller shards can be published to several GitHub repositories automatically.
+Automatic subscription updater that fetches VPN configs from multiple Cloudflare Workers sources, deduplicates and renames them with DGDreams branding, and publishes updates. The Cloudflare Workers sources are merged into **one combined subscription**, while each external GitHub source is published as its **own individual subscription**. The complete subscription remains in this repository, while smaller shards can be published to several GitHub repositories automatically.
+
+## Subscription Links
+
+| # | Link | Description |
+|---|------|-------------|
+| 1 | `https://raw.githubusercontent.com/Misagh95/free-sub/main/configs_base64.txt` | **Combined** subscription (all Cloudflare Workers sources) |
+| 2 | `https://raw.githubusercontent.com/Misagh95/free-sub/main/patterniha_base64.txt` | patterniha / Free-Configs |
+| 3 | `https://raw.githubusercontent.com/Misagh95/free-sub/main/radikal_base64.txt` | 0xRadikal / Free-v2ray-Configs (top100) |
+| 4 | `https://raw.githubusercontent.com/Misagh95/free-sub/main/barryfar1_base64.txt` | barry-far / V2ray-config Sub1 |
+| 5 | `https://raw.githubusercontent.com/Misagh95/free-sub/main/barryfar2_base64.txt` | barry-far / V2ray-config Sub2 |
+| 6 | `https://raw.githubusercontent.com/Misagh95/free-sub/main/barryfar3_base64.txt` | barry-far / V2ray-config Sub3 |
+
+Plain-text versions use the same filename without `_base64` (e.g. `configs.txt`, `patterniha.txt`). Copy any link above into your VPN client.
 
 ## How It Works
 
 1. **Fetch** — Reads source URLs from `sources.txt`, downloads configs (plain-text or Base64-encoded)
 2. **Rename** — Resolves each server's IP, looks up its country, and appends `#DGDreams 🏳️` to every config
 3. **Deduplicate** — Removes duplicate configs and sorts them
-4. **Shard** — Splits the complete subscription into deterministic, smaller repository shards
-5. **Commit & Push** — Auto-commits changes to `configs.txt` and `configs_base64.txt`
-6. **Publish** — Creates or updates `free-sub-01`, `free-sub-02`, ... repositories
-7. **Notify** — Sends a summary of added/removed configs and all subscription links to Telegram
+4. **External subscriptions** — Fetches each URL from `external_sources.txt` separately and publishes it as its own `<label>.txt` / `<label>_base64.txt`
+5. **Shard** — Splits the complete subscription into deterministic, smaller repository shards
+6. **Commit & Push** — Auto-commits changes to all subscription files
+7. **Publish** — Creates or updates `free-sub-01`, `free-sub-02`, ... repositories
+8. **Notify** — Sends a summary of added/removed configs and all subscription links to Telegram
 
 ## Files
 
 | File | Description |
 |------|-------------|
-| `sources.txt` | List of source URLs (one per line, `#` for comments) |
-| `configs.txt` | Plain-text output — one config per line |
-| `configs_base64.txt` | Base64-encoded version of `configs.txt` for subscription clients |
+| `sources.txt` | Cloudflare Workers source URLs (merged into the combined subscription; one per line, `#` for comments) |
+| `external_sources.txt` | External sources published as individual subscriptions (`label<TAB>url`, one per line, `#` for comments) |
+| `configs.txt` | Combined plain-text output — one config per line |
+| `configs_base64.txt` | Base64-encoded combined subscription for subscription clients |
+| `<label>.txt` / `<label>_base64.txt` | Plain / Base64 output for each external source |
 | `scripts/fetch_configs.py` | Fetches and decodes configs from sources |
 | `scripts/rename_configs.py` | Renames configs with DGDreams branding and country flags |
+| `scripts/build_external_subs.py` | Builds the individual external subscriptions |
 | `scripts/split_repositories.py` | Builds deterministic multi-repository subscription shards |
 | `scripts/publish_repositories.py` | Creates/updates the generated GitHub repositories |
 | `scripts/notify_telegram.py` | Sends Telegram notifications with all subscription links |
@@ -33,7 +50,7 @@ Automatic subscription updater that fetches VPN configs from multiple Cloudflare
    - `TG_BOT_TOKEN` — Telegram bot token for notifications
    - `TG_CHAT_ID` — Telegram chat ID for notifications
    - `MULTI_REPO_TOKEN` — GitHub token with permission to create and push to repositories owned by the account (a classic token with `repo` scope is the simplest option). This is required for the generated shards; without it, the main subscription still updates normally.
-3. The workflow runs every 6 hours automatically, or trigger manually from the **Actions** tab
+3. The workflow runs every 6 hours automatically, or trigger manually from the **Actions** tab (run it once right after setup to generate the first subscription files)
 
 ## Multi-repository output
 
@@ -47,4 +64,4 @@ Configs are assigned with a SHA-256 bucket, not by list position, so a normal up
 
 ## License
 
-Public — use freely.
+Public — use freely.

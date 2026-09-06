@@ -9,6 +9,8 @@ import sys
 import urllib.request
 from pathlib import Path
 
+from xray_json import parse_xray_json
+
 PROTOCOL_RE = re.compile(
     r"^(vless|vmess|trojan|ss|hysteria2|tuic)://",
     re.IGNORECASE | re.MULTILINE,
@@ -52,12 +54,37 @@ def validate_line(line: str) -> bool:
     line = line.strip()
     if not line:
         return False
-    if not PROTOCOL_RE.match(line):
+    match = PROTOCOL_RE.match(line)
+    if not match:
         return False
     base = line.split("#", 1)[0]
-    if "@" not in base:
+    scheme = match.group(1).lower()
+    # vmess:// payloads are a single base64 blob without an '@'; everything
+    # else must carry an explicit host (user@host:port).
+    if scheme != "vmess" and "@" not in base:
         return False
     return True
+
+
+def extract_config_lines(data: bytes) -> tuple[str, list[str]]:
+    """Return (source_type, decoded_lines) for raw source bytes.
+
+    Handles plain-text subscriptions, Xray JSON node exports (served by the
+    Cloudflare Workers sources), and Base64-encoded subscriptions.
+    """
+    if is_plain_configs(data):
+        return "plain", data.decode("utf-8", errors="replace").splitlines()
+
+    text = data.decode("utf-8", errors="replace")
+    if text.lstrip()[:1] in "[{":
+        uris = parse_xray_json(text)
+        if uris:
+            return "xray-json", uris
+
+    b64_text = decode_base64(data)
+    if b64_text:
+        return "base64", b64_text.splitlines()
+    return "unknown", []
 
 
 def main(sources_path: str = "sources.txt", output_path: str = "/tmp/raw_configs.txt"):
@@ -81,15 +108,7 @@ def main(sources_path: str = "sources.txt", output_path: str = "/tmp/raw_configs
         decoded_lines: list[str] = []
 
         try:
-            if is_plain_configs(data):
-                text = data.decode("utf-8", errors="replace")
-                decoded_lines = text.splitlines()
-                source_type = "plain"
-            else:
-                b64_text = decode_base64(data)
-                if b64_text:
-                    decoded_lines = b64_text.splitlines()
-                    source_type = "base64"
+            source_type, decoded_lines = extract_config_lines(data)
         except Exception as exc:
             print(f"  ✗ Decode error: {exc}", file=sys.stderr)
 
