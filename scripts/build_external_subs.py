@@ -23,6 +23,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from fetch_configs import extract_config_lines, fetch_url, validate_line  # noqa: E402
+from rename_configs import rename_config  # noqa: E402
 
 
 def parse_sources(path: Path) -> list[tuple[str, str]]:
@@ -47,7 +48,13 @@ def parse_sources(path: Path) -> list[tuple[str, str]]:
 
 
 def fetch_subscription(url: str) -> list[str]:
-    """Fetch a source and return validated, deduplicated config lines."""
+    """Fetch a source and return validated, deduplicated, renamed config lines.
+
+    Configs are deduplicated by server identity, then renamed with a
+    deterministic female name specific to the server's country (with its
+    flag), so every subscription (combined and individual) uses the same
+    naming scheme.
+    """
     data = fetch_url(url)
     if data is None:
         return []
@@ -58,7 +65,17 @@ def fetch_subscription(url: str) -> list[str]:
         print(f"  ✗ Decode error: {exc}", file=sys.stderr)
         return []
 
-    return sorted({line.strip() for line in decoded_lines if validate_line(line.strip())})
+    valid = [line.strip() for line in decoded_lines if validate_line(line.strip())]
+    by_base: dict[str, str] = {}
+    for line in valid:
+        by_base.setdefault(line.split("#", 1)[0].strip(), line)
+
+    renamed: list[str] = []
+    for line in by_base.values():
+        result = rename_config(line)
+        if result:
+            renamed.append(result)
+    return sorted(set(renamed))
 
 
 def main(
@@ -110,6 +127,9 @@ def main(
             encoding="ascii",
         )
         print(f"  → {label}: {len(configs)} configs")
+        if configs:
+            sample = configs[0].split("#", 1)[-1].strip()
+            print(f"    e.g. #{sample}")
         manifest["subscriptions"].append(
             {
                 "label": label,

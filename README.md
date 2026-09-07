@@ -1,6 +1,6 @@
 # Free Sub - Auto Update VPN Configs
 
-Automatic subscription updater that fetches VPN configs from multiple Cloudflare Workers sources, deduplicates and renames them with DGDreams branding, and publishes updates. The Cloudflare Workers sources are merged into **one combined subscription**, while each external GitHub source is published as its **own individual subscription**. The complete subscription remains in this repository, while smaller shards can be published to several GitHub repositories automatically.
+Automatic subscription updater that fetches VPN configs from multiple Cloudflare Workers sources, deduplicates them, and renames every config with a deterministic female name specific to its server's country, prefixed with that country's flag. The Cloudflare Workers sources are merged into **one combined subscription**, while each external GitHub source is published as its **own individual subscription**. The complete subscription remains in this repository, while smaller shards can be published to several GitHub repositories automatically.
 
 ## Subscription Links
 
@@ -17,10 +17,10 @@ Plain-text versions use the same filename without `_base64` (e.g. `configs.txt`,
 
 ## How It Works
 
-1. **Fetch** — Reads source URLs from `sources.txt`, downloads configs (plain-text or Base64-encoded)
-2. **Rename** — Resolves each server's IP, looks up its country, and appends `#DGDreams 🏳️` to every config
+1. **Fetch** — Reads source URLs from `sources.txt`, downloads configs (plain-text, Base64, or Xray JSON)
+2. **Rename** — Resolves each server's IP, looks up its country, and appends a deterministic female name specific to that country, like `#🇺🇸 Emma-569` to every config
 3. **Deduplicate** — Removes duplicate configs and sorts them
-4. **External subscriptions** — Fetches each URL from `external_sources.txt` separately and publishes it as its own `<label>.txt` / `<label>_base64.txt`
+4. **External subscriptions** — Fetches each URL from `external_sources.txt` separately, renames its configs the same way, and publishes it as its own `<label>.txt` / `<label>_base64.txt`
 5. **Shard** — Splits the complete subscription into deterministic, smaller repository shards
 6. **Commit & Push** — Auto-commits changes to all subscription files
 7. **Publish** — Creates or updates `free-sub-01`, `free-sub-02`, ... repositories
@@ -36,7 +36,7 @@ Plain-text versions use the same filename without `_base64` (e.g. `configs.txt`,
 | `configs_base64.txt` | Base64-encoded combined subscription for subscription clients |
 | `<label>.txt` / `<label>_base64.txt` | Plain / Base64 output for each external source |
 | `scripts/fetch_configs.py` | Fetches and decodes configs from sources |
-| `scripts/rename_configs.py` | Renames configs with DGDreams branding and country flags |
+| `scripts/rename_configs.py` | Renames configs with deterministic female names and country flags |
 | `scripts/build_external_subs.py` | Builds the individual external subscriptions |
 | `scripts/split_repositories.py` | Builds deterministic multi-repository subscription shards |
 | `scripts/publish_repositories.py` | Creates/updates the generated GitHub repositories |

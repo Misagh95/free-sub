@@ -18,7 +18,7 @@ CHUNK_SIZE = 4000
 REQUEST_TIMEOUT = 20
 
 PROTOCOL_RE = re.compile(r"^(vless|vmess|trojan|ss|hysteria2|tuic)://", re.IGNORECASE)
-FLAG_RE = re.compile(r"#DGDreams\s+(.+)$")
+FLAG_RE = re.compile(r"#([\U0001F1E6-\U0001F1FF]{2}|🌐)\s+(.+)$")
 
 SUB_BASE_URL = "https://raw.githubusercontent.com/Misagh95/free-sub/main"
 
@@ -46,7 +46,7 @@ def send_message(token: str, chat_id: str, text: str, parse_mode: str = "HTML") 
 def get_stats(configs: list[str]) -> tuple[Counter, Counter]:
     protocols = Counter(PROTOCOL_RE.match(c).group(1).lower() for c in configs if PROTOCOL_RE.match(c))
     flags = Counter(
-        (m.group(1).strip() if (m := FLAG_RE.search(c)) else "🌐")
+        (m.group(1) if (m := FLAG_RE.search(c)) else "🌐")
         for c in configs
     )
     return protocols, flags
