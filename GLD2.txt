@@ -1,5 +1,3 @@
-ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpvWklvQTY5UTh5aGNRVjhrYTNQYTNB@193.29.139.180:8080#🇳🇱 Mila-384
-ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpvWklvQTY5UTh5aGNRVjhrYTNQYTNB@193.29.139.204:8080#🇳🇱 Emma-707
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpvWklvQTY5UTh5aGNRVjhrYTNQYTNB@193.29.139.225:8080#🇳🇱 Sophie-929
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpvWklvQTY5UTh5aGNRVjhrYTNQYTNB@193.29.139.230:8080#🇳🇱 Julia-225
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpvWklvQTY5UTh5aGNRVjhrYTNQYTNB@193.29.139.238:8080#🇳🇱 Maud-171
@@ -60,6 +58,7 @@ ss://YWVzLTI1Ni1nY206M2VPRmVOc3NkZTdQWVlNdg==@84.247.155.196:80#🇯🇵 Hinata-
 ss://YWVzLTI1Ni1nY206M2VPRmVOc3NkZTdQWVlNdg@84.247.155.196:80#🇯🇵 Aiko-55
 ss://YWVzLTI1Ni1nY206MWVhZGQ0ZTRhMzdiNjYwMQ@45.8.158.176:10801#🇷🇺 Vera-887
 ss://YWVzLTI1Ni1nY206NmIzOWFlMzIzNGRmZDY4Yg==@185.22.155.162:10808#🇷🇺 Elena-845
+ss://YWVzLTI1Ni1nY206NzI1NTMzMjBhZTZiY2M4Zg@212.192.15.86:20210#🇭🇰 Yi-883
 ss://YWVzLTI1Ni1nY206QXlxWDhLeW55eVFMUmVPWm9yUVJRYnN2bWl3eEJRT2Y=@64.83.33.45:443#🇯🇵 Yui-651
 ss://YWVzLTI1Ni1nY206QXlxWDhLeW55eVFMUmVPWm9yUVJRYnN2bWl3eEJRT2Y@64.83.33.45:443#🇯🇵 Akari-316
 ss://YWVzLTI1Ni1nY206QXlxWDhLeW55eVFMUmVPWm9yUVJRYnN2bWl3eEJRT2Y@64.83.33.45:443?#🇯🇵 Yui-182
@@ -67,7 +66,6 @@ ss://YWVzLTI1Ni1nY206R0Vkb2VlcUxadGtKUmdTYQ@139.84.166.47:8388#🇮🇳 Meera-47
 ss://YWVzLTI1Ni1nY206Rm9PaUdsa0FBOXlQRUdQ@15.204.246.132:7307#🇺🇸 Mia-27
 ss://YWVzLTI1Ni1nY206S2l4THZLendqZWtHMDBybQ==@23.157.40.120:8000#🇺🇸 Zoe-992
 ss://YWVzLTI1Ni1nY206S2l4THZLendqZWtHMDBybQ==@23.157.40.120:8080#🇺🇸 Abigail-536
-ss://YWVzLTI1Ni1nY206SGk5d2sxNFZudHpHcTdrcQ@154.12.242.150:80#🇺🇸 Chloe-838
 ss://YWVzLTI1Ni1nY206TFhjaExzSXd0Q2VVQVVndQ==@149.102.149.207:80#🇬🇧 Charlotte-505
 ss://YWVzLTI1Ni1nY206TFhjaExzSXd0Q2VVQVVndQ@149.102.149.207:443#🇬🇧 Lily-135
 ss://YWVzLTI1Ni1nY206TFhjaExzSXd0Q2VVQVVndQ@149.102.149.207:80#🇬🇧 Amelia-737
@@ -138,6 +136,7 @@ trojan://20ba0c60-0133-11f1-95ef-1239d0255272@172.64.152.23:443?path=/howdy&secu
 trojan://34420a42-f094-4ed8-8695-5caa4b518f62@bestcdn2.868863.xyz:2083/?type=ws&host=17882643858478.206352.xyz&path=/agraeabtegrrh&security=tls&sni=206352.xyz#🇺🇸 Elizabeth-880
 trojan://34420a42-f094-4ed8-8695-5caa4b518f62@bestcdn2.868863.xyz:2087/?type=ws&host=17882643855452.206353.xyz&path=/agrbniuh&security=tls&sni=206353.xyz#🇺🇸 Stella-734
 trojan://347ca311-8fc2-499c-8fe1-bd0ecb50f1b3@5.34.222.4:43074?security=tls&insecure=1&headerType=none&type=tcp&allowInsecure=1&sni=iepl.jpz2.cat.bilibili.com&note=@FreeOnlineVPN#🇯🇵 Nanami-382
+trojan://3cun8ob5macv9vpj@185.204.169.163:8080?path=/&security=tls&alpn=h2,http/1.1&insecure=0&host=185.204.169.163&fp=chrome&ech=AGL+DQBeAAAgACCnSdwYd8/Uxcw9H8QK09IGcb4Lt1HK/Xk28QgvSCw+TAAkAAEAAQABAAIAAQADAAIAAQACAAIAAgADAAMAAQADAAIAAwADAA8xODUuMjA0LjE2OS4xNjMAAA==&type=ws&allowInsecure=0&sni=185.204.169.163#🇩🇪 Sabine-137
 trojan://5e19b3c8-c1dc-4163-95e2-895319c15d6c@ru.techdatacloud.org:8443?security=reality&pbk=jaZRUO7x7awSXNBlvKp3nXdm2gBEsEgmNbbYs7RRQlw&headerType=none&type=tcp&sni=cloud.mail.ru&sid=8c3785d47c2017ec#🇷🇺 Tamara-799
 trojan://5e19b3c8-c1dc-4163-95e2-895319c15d6c@ru.techdatacloud.org:8443?security=reality&sni=cloud.mail.ru&pbk=jaZRUO7x7awSXNBlvKp3nXdm2gBEsEgmNbbYs7RRQlw&sid=8c3785d47c2017ec&type=tcp&headerType=none#🇷🇺 Vera-902
 trojan://5e5340e6-433d-b5f7-0062-d793046eb281@94.140.0.100:8443?type=ws&host=blue-queen-d517.aaj1388324.workers.dev&path=/eyJqdW5rIjoiMWphS1ZyYzRTbGsiLCJwcm90b2NvbCI6InRyIiwibW9kZSI6InByb3h5aXAiLCJwYW5lbElQcyI6W10sInJlbGF5SWR4IjoyM30=&security=tls&fp=chrome&sni=blue-queen-d517.aaj1388324.workers.dev#🇦🇪 Latifa-741
@@ -156,19 +155,19 @@ trojan://@UonVPN-----@UonVPN----@UonVPN---@UonVPN@199.232.79.166:443?mode=auto&p
 trojan://@UonVPN-----@UonVPN---@UonVPN---@UonVPN@199.232.78.160:443?mode=auto&path=/@UonVPN---@UonVPN---@UonVPN---@UonVPN---@UonVPN---@UonVPN---@UonVPN---@UonVPN---@UonVPN---@UonVPN---@UonVPN---@UonVPN---@UonVPN---@UonVPN---@UonVPN&security=tls&extra={"xPaddingBytes":"100-1000"}&insecure=0&host=telegram-uonvpn.global.ssl.fastly.net&fp=chrome&type=xhttp&allowInsecure=0&sni=ssl.fastly.com#🇺🇸 Sophia-976
 trojan://@UonVPN-----@UonVPN---@UonVPN---@UonVPN@199.232.79.166:443?mode=auto&path=/@UonVPN---@UonVPN---@UonVPN---@UonVPN---@UonVPN---@UonVPN---@UonVPN---@UonVPN---@UonVPN---@UonVPN---@UonVPN---@UonVPN---@UonVPN---@UonVPN---@UonVPN&security=tls&extra={"xPaddingBytes":"100-1000"}&insecure=0&host=telegram-uonvpn.global.ssl.fastly.net&fp=chrome&type=xhttp&allowInsecure=0&sni=ssl.fastly.com#🇺🇸 Chloe-85
 trojan://@UonVPN-----@UonVPN---@UonVPN---@UonVPN@199.232.79.166:443?mode=auto&path=/@UonVPN---@UonVPN---@UonVPN---@UonVPN---@UonVPN---@UonVPN---@UonVPN---@UonVPN---@UonVPN---@UonVPN---@UonVPN---@UonVPN---@UonVPN---@UonVPN---@UonVPN&security=tls&extra={"xPaddingBytes":"100-1000"}&insecure=0&host=telegram-uonvpn.global.ssl.fastly.net&type=xhttp&allowInsecure=0&sni=ssl.fastly.com#🇺🇸 Emma-985
-trojan://@UonVPN----@UonVPN---@UonVPN---@UonVPN@104.24.197.20:443?mode=auto&path=/@UonVPN---@UonVPN---@UonVPN---@UonVPN---@UonVPN---@UonVPN---@UonVPN---@UonVPN---@UonVPN---@UonVPN---@UonVPN---@UonVPN---@UonVPN---@UonVPN---@UonVPN---@UonVPN&security=tls&alpn=h2,http/1.1&fm={  "tcp" : [    {      "settings" : {        "delay" : "0",        "length" : "1",        "maxSplit" : "",        "packets" : "tlshello"      },      "type" : "fragment"    }  ]}&extra={  "xmux" : {    "cMaxReuseTimes" : 0,    "hKeepAlivePeriod" : 0,    "hMaxRequestTimes" : "600-900",    "hMaxReusableSecs" : "1800-3000",    "maxConnections" : "6"  },  "xPaddingBytes" : "100-1000"}&insecure=0&fp=chrome&type=xhttp&allowInsecure=0&sni=uon.hp77o.eu.cc#🇺🇸 Scarlett-125
-trojan://@UonVPN----@UonVPN---@UonVPN---@UonVPN@199.232.79.166:443?mode=auto&path=/@UonVPN---@UonVPN---@UonVPN---@UonVPN---@UonVPN---@UonVPN---@UonVPN---@UonVPN---@UonVPN---@UonVPN---@UonVPN---@UonVPN---@UonVPN---@UonVPN---@UonVPN&security=tls&extra={"xPaddingBytes":"100-1000"}&insecure=0&host=telegram-uonvpn.global.ssl.fastly.net&fp=chrome&type=xhttp&allowInsecure=0&sni=ssl.fastly.com#🇺🇸 Abigail-107
 trojan://@UonVPN---@UonVPN---@UonVPN---@UonVPN@199.232.79.166:443?mode=auto&path=/@UonVPN---@UonVPN---@UonVPN---@UonVPN---@UonVPN---@UonVPN---@UonVPN---@UonVPN---@UonVPN---@UonVPN---@UonVPN---@UonVPN---@UonVPN---@UonVPN---@UonVPN&security=tls&extra={"xPaddingBytes":"100-1000"}&insecure=0&host=telegram-uonvpn.global.ssl.fastly.net&fp=chrome&type=xhttp&allowInsecure=0&sni=ssl.fastly.com#🇺🇸 Amelia-17
 trojan://@UonVPN--@UonVPN---@UonVPN---@UonVPN@104.21.75.247:443?mode=auto&path=/@UonVPN---@UonVPN---@UonVPN---@UonVPN---@UonVPN---@UonVPN---@UonVPN---@UonVPN---@UonVPN---@UonVPN---@UonVPN---@UonVPN---@UonVPN---@UonVPN---@UonVPN---@UonVPN&security=tls&alpn=h2,http/1.1&fm={  "tcp" : [    {      "settings" : {        "delay" : "0",        "length" : "1",        "maxSplit" : "",        "packets" : "tlshello"      },      "type" : "fragment"    }  ]}&extra={"xPaddingBytes":"100-1000"}&insecure=0&fp=chrome&type=xhttp&allowInsecure=0&sni=uon.hp77o.eu.cc#🇺🇸 Sophia-361
 trojan://@ZhilaVPN@91.107.174.133:14639?mode=auto&path=/&security=reality&pbk=E7nNU4kKyWD1oPuKzzXKsAhc8ZFWxBQuQf_xocrmdTk&fp=chrome&spx=/&type=xhttp&sni=play.google.com&sid=2f368a9b67#🇩🇪 Elisa-568
 trojan://Aimer@167.68.4.199:2053?ed=2560&eh=Sec-WebSocket-Protocol&host=epge.muarua.filegear-sg.me&path=/?proxyip=ts.hpc.tw&sni=epge.muarua.filegear-sg.me&type=ws#🇺🇸 Emma-814
 trojan://Aimer@167.68.4.199:2053?host=epge.muarua.filegear-sg.me&path=/?ed&sni=epge.muarua.filegear-sg.me&type=ws#🇺🇸 Mia-456
 trojan://BbNnpOgc1j9WOaWoslbSyeob1r47IRHV@jgzt1997.qivfelo.ir:1080?security=reality&pbk=1ZO9Cjhs1IFAU6nZATRhOuD3kq6J-1dZadfEfX734zc&headerType=none&fp=chrome&type=tcp&sni=maps.google.com&sid=0d12eb289946de9b#🇩🇪 Marie-113
+trojan://BbNnpOgc1j9WOaWoslbSyeob1r47IRHV@jgzt1997.qivfelo.ir:1080?security=reality&sni=maps.google.com&fp=chrome&pbk=1ZO9Cjhs1IFAU6nZATRhOuD3kq6J-1dZadfEfX734zc&sid=0d12eb289946de9b&type=tcp&headerType=none#🇩🇪 Silke-535
 trojan://BbNnpOgc1j9WOaWoslbSyeob1r47IRHV@xn--memeshupshop-vl56koa410enom.rekmiva.ir:1080?security=reality&pbk=1ZO9Cjhs1IFAU6nZATRhOuD3kq6J-1dZadfEfX734zc&headerType=none&fp=chrome&type=tcp&sni=updates.cdn-apple.com&sid=0d12eb289946de9b#🇩🇪 Franziska-563
 trojan://BxceQaOe@16.163.102.116:52951/?type=tcp&security=tls&allowInsecure=1&note=@FreeOnlineVPN#🇭🇰 Ming-844
 trojan://BxceQaOe@43.198.13.210:41973?allowInsecure=1&sni=t.me/ripaojiedian&note=@FreeOnlineVPN#🇭🇰 Hoi-917
 trojan://I1vtf6pjYsAu-nFnraWAMjKTy90AHitdAz@91.233.8.25:443?security=tls&insecure=0&headerType=none&fp=chrome&type=tcp&allowInsecure=0&sni=fra34.tracker-ws.click#🇩🇪 Clara-943
 trojan://Ldbgt4IUYv0S+5cFrG4vcWEbvdf8RgPGmoIXhnnOEh4=@65.109.215.50:54673?security=none&type=tcp#🇫🇮 Emma-362
+trojan://MITIVPN@openai.com:443?path=/---@MiTiVPN/---@MiTiVPN/---@MiTiVPN/---@MiTiVPN/---@MiTiVPN=U-S-a&security=tls&alpn=h2,http/1.1&insecure=0&host=my-usjca-ohl.App-CloUd.IR&fp=chrome&type=ws&allowInsecure=0&sni=UsAba-bUbks.App-CloUd.IR#🇺🇸 Violet-379
 trojan://Masir_Sefid@37.156.46.29:2053?security=reality&pbk=w0XepGv1Hk0gBh1Apiw-nvn8SfzjWcDuxdxN1mpaF3g&headerType=none&fp=chrome&spx=/W8svbYrFok2DfFx&type=tcp&sni=store.steampowered.com&sid=20b301df70#🇨🇭 Mia-850
 trojan://Masir_Sefid@83.228.225.220:1040?security=reality&pbk=w0XepGv1Hk0gBh1Apiw-nvn8SfzjWcDuxdxN1mpaF3g&headerType=none&fp=chrome&spx=/aRBYGa427aKKE16&type=tcp&sni=store.steampowered.com&sid=84e87fdcdf2ea9e8#🇨🇭 Emma-798
 trojan://Masir_Sefid@84.234.31.249:443?security=reality&headerType=none&fp=chrome&type=tcp&sni=store.steampowered.com#🇨🇭 Selina-263
@@ -180,7 +179,6 @@ trojan://MiTiVPN@151.101.56.230:443?path=/---@MiTiVPN---@MiTiVPN/---@MiTiVPN---@
 trojan://MiTiVPN@151.101.56.230:443?security=tls&sni=ssl.fastly.com&alpn=http/1.1&fp=chrome&allowinsecure=0&type=ws&host=MiTiVPN-MiTiVPN-MiTiVPN---MiTiVPN--MiTiVPN.global.ssl.fastly.net&path=/---@MiTiVPN---@MiTiVPN/---@MiTiVPN---@MiTiVPN/---@MiTiVPN---@MiTiVPN/D-e2@MiTiVPN---@MiTiVPN/---@MiTiVPN---@MiTiVPN/---@MiTiVPN---@MiTiVPN#🇺🇸 Hannah-348
 trojan://MiTiVPN@151.101.56.6:443?path=/---@MiTiVPN---@MiTiVPN/---@MiTiVPN---@MiTiVPN/---@MiTiVPN---@MiTiVPN/NLSus---@MiTiVPN---@MiTiVPN/---@MiTiVPN---@MiTiVPN/---@MiTiVPN---@MiTiVPN&security=tls&alpn=http/1.1&host=mitivpn---ss--s---mitivpn-1.global.ssl.fastly.net&fp=chrome&type=ws&sni=ssl.fastly.com#🇺🇸 Lily-593
 trojan://MiTiVPN@151.101.56.6:443?path=/---@MiTiVPN---@MiTiVPN/---@MiTiVPN---@MiTiVPN/---@MiTiVPN---@MiTiVPN/NLSus---@MiTiVPN---@MiTiVPN/---@MiTiVPN---@MiTiVPN/---@MiTiVPN---@MiTiVPN&security=tls&alpn=http/1.1&insecure=0&host=mitivpn---ss--s---mitivpn-1.global.ssl.fastly.net&fp=chrome&type=ws&allowInsecure=0&sni=ssl.fastly.com#🇺🇸 Naomi-86
-trojan://MiTiVPN@151.101.56.6:443?path=/---@VPNine1---@VPNine1/---@VPNine1---@VPNine1/---@VPNine1---@VPNine1/NLSus---@VPNine1---@VPNine1/---@VPNine1---@VPNine1/---@VPNine1---@VPNine1&security=tls&alpn=http/1.1&insecure=0&host=mitivpn---ss--s---mitivpn-1.global.ssl.fastly.net&fp=chrome&type=ws&allowInsecure=0&sni=ssl.fastly.com#🇺🇸 Ava-309
 trojan://MiTiVPN@151.101.56.7:443?path=&security=tls&alpn=http/1.1&insecure=0&host=.global.ssl.fastly.net&fp=chrome&type=ws&allowInsecure=0&sni=ssl.fastly.com#🇺🇸 Naomi-566
 trojan://MiTiVPN@151.101.56.7:443?path=/&security=tls&alpn=http/1.1&insecure=0&host=mitivpn-mitivpn-mitivpn--mitivpn-mitivpn--mitivpn.global.ssl.fastly.net&fp=chrome&type=ws&allowInsecure=0&sni=ssl.fastly.com#🇺🇸 Natalie-871
 trojan://MiTiVPN@151.101.56.7:443?path=/--&security=tls&alpn=http/1.1&insecure=0&host=mitivpn-mitivpn-mitivpn---mitivpn--mitivpn.global.ssl.fastly.net&fp=chrome&type=ws&allowInsecure=0&sni=ssl.fastly.com#🇺🇸 Riley-813
@@ -225,7 +223,6 @@ trojan://MiTiVPN@199.232.78.160:443?path=/---TOOTFFARANGI---TOOTFFARANGI---TOOTF
 trojan://MiTiVPN@199.232.78.160:443?path=/---TOOTFFARANGI---TOOTFFARANGI---TOOTFFARANGI---TOOTFFARANGI---TOOTFFARANGI---TOOTFFARANGI---TOOTFFARANGI&security=tls&alpn=http/1.1&insecure=0&host=mitivpn-ss-mitivpn---mitivpn--mitivpn.global.ssl.fastly.net&fp=chrome&type=ws&allowInsecure=0&sni=ssl.fastly.com#🇺🇸 Stella-341
 trojan://MiTiVPN@199.232.78.160:443?path=/---kasibam1---kasibam1---kasibam1---kasibam1---kasibam1---kasibam1---kasibam1&security=tls&alpn=http/1.1&insecure=0&host=mitivpn-mitivpn-mitivpn---mitivpn--mitivpn.global.ssl.fastly.net&fp=chrome&type=ws&allowInsecure=0&sni=ssl.fastly.com#🇺🇸 Harper-768
 trojan://MiTiVPN@199.232.78.160:443?security=tls&alpn=http/1.1&insecure=0&host=mitivpn-mitivpn-mitivpn---mitivpn--mitivpn.global.ssl.fastly.net&fp=chrome&type=ws&allowInsecure=0&sni=ssl.fastly.com#🇺🇸 Ava-9
-trojan://MiTiVPN@91.193.58.201:443?path=/MiTiVPN=fL&security=tls&alpn=http/1.1&insecure=0&host=Fl.App-Cloud.ir&fp=chrome&type=ws&allowInsecure=0&sni=fl.App-Cloud.ir#🇬🇧 Lily-372
 trojan://Mitivpn@151.101.0.0:80?type=ws&security=none&path=@SylphNet&host=@SylphNet#🇺🇸 Avery-896
 trojan://PQ05174892@13.192.168.51:443/?type=tcp&security=tls&sni=learning-leopard.rooster465.autos&fp=chrome#🇯🇵 Ayame-752
 trojan://Telegram-Config0plus@104.17.108.189:443?path=/ca-cl&security=tls&insecure=0&host=go.appsflyer.com.r3xxe.eu.cc&type=ws&allowInsecure=0&sni=go.appsflyer.com.r3xxe.eu.cc#🇺🇸 Olivia-440
@@ -258,6 +255,7 @@ trojan://humanity@104.18.32.47:443?path=/assignment&security=tls&insecure=0&fp=c
 trojan://humanity@104.18.32.47:443?security=tls&sni=www.calmlunch.com&insecure=0&allowInsecure=0&type=ws&path=/assignment&note=@FreeOnlineVPN#🇺🇸 Violet-997
 trojan://humanity@104.18.9.83:443?path=/assignment&security=tls&insecure=0&host=www.calmlunch.com&type=ws&allowInsecure=0#🇺🇸 Naomi-635
 trojan://humanity@104.18.9.83:443?path=/assignment&security=tls&insecure=0&host=www.calmlunch.com&type=ws&allowInsecure=0&sni=www.calmlunch.com#🇺🇸 Sophia-343
+trojan://humanity@104.19.229.21:443?path=//assignment&security=tls&insecure=0&host=www.calmlunch.com&type=ws&allowInsecure=0&sni=www.calmlunch.com#🇺🇸 Riley-897
 trojan://humanity@104.19.229.21:443?path=assignment&security=tls&insecure=0&type=ws&allowInsecure=0&sni=www.ignitelimit.com#🇺🇸 Elizabeth-889
 trojan://humanity@104.21.33.59:443?path=/assignment&security=tls&alpn=http/1.1&fm={"tcp": [{"type": "fragment", "settings": {"packets": "tlshello", "lengths": ["5", "94", "1"], "delays": ["0"], "maxSplit": "0"}},{"type": "fragment", "settings": {"packets": "1-1", "lengths": ["109", "1"], "delays": ["1"], "maxSplit": "355"}}]}&insecure=0&host=www.pleadcourt.org&fp=unsafe&type=ws&allowInsecure=0&sni=www.pleadcourt.org#🇺🇸 Hannah-135
 trojan://humanity@130.250.137.171:443?path=/assignment&security=tls&insecure=0&host=www.ignitelimit.com&ech=ip.gs+udp://8.8.8.8&type=ws&allowInsecure=0&sni=www.ignitelimit.com#🇺🇸 Chloe-364
