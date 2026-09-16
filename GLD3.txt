@@ -1,4 +1,3 @@
-trojan://humanity@188.114.97.7:443?path=/assignment&security=tls&alpn=v2rayNplus--v2rayNplus--v2rayNplus--v2rayNplus--v2rayNplus--v2rayNplus--v2rayNplus--v2rayNplus&insecure=0&type=ws&allowInsecure=0&sni=www.ignitelimit.com#🇺🇸 Ella-9
 trojan://humanity@188.114.97.7:443?path=/assignment&security=tls&insecure=0&ech=ip.gs+udp://8.8.8.8&type=ws&allowInsecure=0&sni=www.ignitelimit.com#🇺🇸 Natalie-304
 trojan://humanity@188.114.97.7:443?security=tls&sni=www.ignitelimit.com&ech=ip.gs+udp://8.8.8.8&type=ws&path=/assignment#🇺🇸 Audrey-564
 trojan://humanity@188.114.97.7:443?type=ws&path=/assignment&security=tls&sni=www.ignitelimit.com&ech=ip.gs+udp://8.8.8.8#🇺🇸 Emily-6
@@ -227,3 +226,8 @@ vless://05bfcbaa-cba0-4bce-9103-09fe3f5f0667@167.233.219.201:443?mode=auto&path=
 vless://05bfcbaa-cba0-4bce-9103-09fe3f5f0667@167.233.219.201:443?mode=auto&path=/api/v3/stream/&security=tls&alpn=h2&encryption=none&insecure=0&fp=chrome&type=xhttp&allowInsecure=0&sni=fsn1.nordlinkcloud.com#🇩🇪 Emilia-440
 vless://05bfcbaa-cba0-4bce-9103-09fe3f5f0667@65.109.238.140:443?encryption=none&security=tls&sni=hel1.nordlinkcloud.com&alpn=h2&type=xhttp&path=/api/v3/stream/#🇫🇮 Tuula-118
 vless://05bfcbaa-cba0-4bce-9103-09fe3f5f0667@65.109.238.140:443?encryption=none&security=tls&sni=hel1.nordlinkcloud.com&alpn=h2&type=xhttp&path=/api/v3/stream/&mode=auto#🇫🇮 Riitta-463
+vless://05bfcbaa-cba0-4bce-9103-09fe3f5f0667@65.109.238.140:443?mode=auto&path=/api/v3/stream/&security=tls&alpn=h2&encryption=none&insecure=0&type=xhttp&allowInsecure=0&sni=hel1.nordlinkcloud.com#🇫🇮 Helmi-440
+vless://05bfcbaa-cba0-4bce-9103-09fe3f5f0667@65.109.238.140:443?path=/api/v3/stream/&security=tls&alpn=h2&encryption=none&insecure=0&fp=chrome&type=xhttp&allowInsecure=0&sni=hel1.nordlinkcloud.com#🇫🇮 Helena-780
+vless://05bfcbaa-cba0-4bce-9103-09fe3f5f0667@hel1.nordlinkcloud.com:443?path=/api/v3/stream/&security=tls&encryption=none&insecure=0&fp=chrome&type=xhttp&allowInsecure=0&sni=hel1.nordlinkcloud.com#🇫🇮 Sari-203
+vless://05caca6c-9e97-4c0f-8edf-7b88a6e572c5@85.17.145.65:12068?encryption=none&security=none&sni=mypanel.unixzone.us&type=ws&host=mypanel.unixzone.us&path=/#🇳🇱 Merel-908
+vless://05caca6c-9e97-4c0f-8edf-7b88a6e572c5@85.17.145.65:12068?encryption=none&security=none&type=ws&path=/#🇳🇱 Emma-282
