@@ -1,3 +1,5 @@
+trojan://humanity@45.130.125.112:443?path=/assignment&security=tls&insecure=0&fp=chrome&type=ws&allowInsecure=0&sni=www.calmlunch.com#🇸🇨 Nova-652
+trojan://humanity@45.130.125.160:443?path=/assignment&security=tls&insecure=0&host=www.calmlunch.com&type=ws&allowInsecure=0&sni=www.calmlunch.com#🇸🇨 Daisy-239
 trojan://humanity@45.205.0.6:443?path=/assignment&security=tls&alpn=http/1.1&insecure=0&host=www.calmlunch.com&fp=chrome&type=ws&allowInsecure=0&sni=www.calmlunch.com#🇺🇸 Emma-136
 trojan://humanity@45.87.41.18:443?path=/assignment&security=tls&insecure=0&host=www.calmlunch.com&type=ws&allowInsecure=0&sni=www.calmlunch.com#🇳🇱 Saar-944
 trojan://humanity@78.47.146.151:443?path=/assignment&security=tls&insecure=0&host=www.pleadcourt.org&type=ws&allowInsecure=0&sni=www.pleadcourt.org#🇩🇪 Clara-561
@@ -303,4 +305,3 @@ vless://0ce122a3-1c91-4cf5-a2cc-67f25e8cb56f@185.32.6.61:443?security=reality&en
 vless://0ce122a3-1c91-4cf5-a2cc-67f25e8cb56f@185.32.6.62:443?security=reality&encryption=none&pbk=xy8AHr_xZCNqFOuLq_t2fe4oLlrv5iu38uCQ1hUJ40w&headerType=none&fp=chrome&type=tcp&flow=xtls-rprx-vision&sni=dropbox.com&sid=954c99065465428d#🇵🇱 Iga-392
 vless://0ce122a3-1c91-4cf5-a2cc-67f25e8cb56f@185.32.6.62:443?security=reality&encryption=none&pbk=xy8AHr_xZCNqFOuLq_t2fe4oLlrv5iu38uCQ1hUJ40w&host=/?TELEGRAM--V2ray_confiig&headerType=none&fp=chrome&type=tcp&flow=xtls-rprx-vision&sni=dropbox.com&sid=954c99065465428d#🇵🇱 Agnieszka-123
 vless://0ce122a3-1c91-4cf5-a2cc-67f25e8cb56f@185.32.6.63:443?security=reality&encryption=none&pbk=xy8AHr_xZCNqFOuLq_t2fe4oLlrv5iu38uCQ1hUJ40w&headerType=none&fp=chrome&type=tcp&flow=xtls-rprx-vision&sni=dropbox.com&sid=954c99065465428d#🇵🇱 Barbara-554
-vless://0ce122a3-1c91-4cf5-a2cc-67f25e8cb56f@185.32.6.63:443?security=reality&encryption=none&pbk=xy8AHr_xZCNqFOuLq_t2fe4oLlrv5iu38uCQ1hUJ40w&host=/?TELEGRAM--MARAMBASHI--MARAMBASHI&headerType=none&fp=chrome&type=tcp&flow=xtls-rprx-vision&sni=dropbox.com&sid=954c99065465428d#🇵🇱 Wiktoria-826
