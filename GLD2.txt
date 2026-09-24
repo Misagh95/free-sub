@@ -1,9 +1,3 @@
-ss://YWVzLTI1Ni1nY206Y2RCSURWNDJEQ3duZklO@51.79.85.185:8118#🇨🇦 Ava-162
-ss://YWVzLTI1Ni1nY206YW1hem9uc2tyMDU@43.201.59.8:443#🇰🇷 Ha-eun-414
-ss://YWVzLTI1Ni1nY206YW1hem9uc2tyMDU@43.201.86.30:443#🇰🇷 Da-eun-921
-ss://YWVzLTI1Ni1nY206YW1hem9uc2tyMDU@43.207.166.104:443#🇯🇵 Haruka-447
-ss://YWVzLTI1Ni1nY206YW1hem9uc2tyMDU@54.64.6.209:443#🇯🇵 Koharu-264
-ss://YWVzLTI1Ni1nY206YmRiMzEzYWRmNzRjMmVkZQ@46.17.40.234:7018#🇷🇺 Svetlana-432
 ss://YWVzLTI1Ni1nY206Z2oxK1hLdWxLVjBubXc2SVRoY2tPa2tKaDVEU003K0M@45.207.207.25:443#🇺🇸 Stella-773
 ss://YWVzLTI1Ni1nY206ZXZlYWFUT2I4amk4eW50dzJaOXlXVUcwZDZJcjhMZDhtM3ltSDhUSGRDNWVnaVRIMW1YQ2lCYzBTa3I3RmliSA==@yyz-ca-01.blncvpn4u.cc:9443#🇨🇦 Gabrielle-784
 ss://YWVzLTI1Ni1nY206ZXZlYWFUT2I4amk4eW50dzJaOXlXVUcwZDZJcjhMZDhtM3ltSDhUSGRDNWVnaVRIMW1YQ2lCYzBTa3I3RmliSA@185.156.47.97:9443#🇨🇦 Simone-310
@@ -268,3 +262,8 @@ trojan://humanity@www.speedtest.net:443?path=/assignment&security=tls&insecure=0
 trojan://humanity@www.speedtest.net:443?security=tls&sni=www.calmlunch.com&ech=ip.gs+udp://8.8.8.8&type=ws&host=www.calmlunch.com&path=/assignment#🇺🇸 Avery-413
 trojan://humanity@www.speedtest.net:443?security=tls&sni=www.ignitelimit.com&ech=ip.gs+udp://8.8.8.8&type=ws&host=www.ignitelimit.com&path=/assignment#🇺🇸 Zoe-824
 trojan://humanity@www.speedtest.net:443?type=ws&host=www.calmlunch.com&path=/assignment&security=tls&sni=www.calmlunch.com&ech=ip.gs+udp://8.8.8.8#🇺🇸 Emily-993
+trojan://humanity@www.speedtest.net:443?type=ws&host=www.ignitelimit.com&path=/assignment&security=tls&sni=www.ignitelimit.com&ech=ip.gs+udp://8.8.8.8#🇺🇸 Evelyn-76
+trojan://humanity@www.speedtest.org:443?security=tls&sni=www.ignitelimit.com#🇺🇸 Penelope-654
+trojan://juo6v8f0celnrhxt@146.19.130.192:441?path=/&security=tls&alpn=h2,http/1.1&insecure=0&host=146.19.130.192&fp=chrome&type=httpupgrade&allowInsecure=0&sni=146.19.130.192#🇬🇧 Evelyn-142
+trojan://l6R5znJSPJ@179.237.75.190:16350?type=tcp&security=reality&headerType=http&path=/5747463414152474635353366347474334&host=rd.autos.yahoo.com:41636&sni=rd.autos.yahoo.com:40069&fp=chrome&insecure=1&allowInsecure=1&pbk=o3oWckXNBDaHDXgqRVLPje6P1r9DRSeCuYtStxCiXz8&spx=/#🇨🇭 Lia-231
+trojan://l6R5znJSPJ@6r6e6e6ryrfyfyydur6r6f6r6r6r6d6d6e6s6d6s6d7d7d7e6s.poki-pakipon.ir:16350?type=tcp&security=reality&headerType=http&path=/5747463414152474635353366347474334&host=rd.autos.yahoo.com:41636&sni=rd.autos.yahoo.com:40069&fp=chrome&insecure=1&allowInsecure=1&pbk=o3oWckXNBDaHDXgqRVLPje6P1r9DRSeCuYtStxCiXz8&spx=/#🇨🇭 Salome-166
