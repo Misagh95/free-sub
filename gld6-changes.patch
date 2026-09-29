@@ -1,0 +1,44 @@
+diff --git a/.github/workflows/update.yml b/.github/workflows/update.yml
+index 5530a40..d604279 100644
+--- a/.github/workflows/update.yml
++++ b/.github/workflows/update.yml
+@@ -20,6 +20,7 @@ env:
+     GLD3.txt GLD3_base64.txt
+     GLD4.txt GLD4_base64.txt
+     GLD5.txt GLD5_base64.txt
++    GLD6.txt GLD6_base64.txt
+   SUBSCRIPTION_TXT_FILES: >-
+     configs.txt
+     GLD1.txt
+@@ -27,6 +28,7 @@ env:
+     GLD3.txt
+     GLD4.txt
+     GLD5.txt
++    GLD6.txt
+ 
+ jobs:
+   update:
+diff --git a/README.md b/README.md
+index 1086676..c1fd068 100644
+--- a/README.md
++++ b/README.md
+@@ -12,6 +12,7 @@ Automatic subscription updater that fetches VPN configs from multiple Cloudflare
+ | 4 | `https://raw.githubusercontent.com/Misagh95/free-sub/main/GLD3_base64.txt` | GLD3 |
+ | 5 | `https://raw.githubusercontent.com/Misagh95/free-sub/main/GLD4_base64.txt` | GLD4 |
+ | 6 | `https://raw.githubusercontent.com/Misagh95/free-sub/main/GLD5_base64.txt` | GLD5 |
++| 7 | `https://raw.githubusercontent.com/Misagh95/free-sub/main/GLD6_base64.txt` | GLD6 (IPSpeed VLESS + Reality) |
+ 
+ Plain-text versions use the same filename without `_base64` (e.g. `configs.txt`, `GLD1.txt`). Copy any link above into your VPN client.
+ 
+diff --git a/external_sources.txt b/external_sources.txt
+index 4b9d107..87dbfb1 100644
+--- a/external_sources.txt
++++ b/external_sources.txt
+@@ -5,4 +5,5 @@ GLD1	https://raw.githubusercontent.com/barry-far/V2ray-config/main/Sub1.txt
+ GLD2	https://raw.githubusercontent.com/barry-far/V2ray-config/main/Sub2.txt
+ GLD3	https://raw.githubusercontent.com/barry-far/V2ray-config/main/Sub3.txt
+ GLD4	https://raw.githubusercontent.com/patterniha/Free-Configs/main/configs.txt
+-GLD5	https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/refs/heads/main/top100.txt
+\ No newline at end of file
++GLD5	https://raw.githubusercontent.com/0xRadikal/Free-v2ray-Configs/refs/heads/main/top100.txt
++GLD6	https://ipspeed.info/free-vless-reality.php
