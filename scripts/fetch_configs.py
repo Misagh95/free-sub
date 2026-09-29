@@ -4,6 +4,7 @@ Fetch VPN configs from sources, detect plain/base64, decode and validate.
 """
 
 import base64
+import html
 import re
 import sys
 import urllib.request
@@ -23,13 +24,17 @@ MAX_TIMEOUT = 60
 
 def fetch_url(url: str) -> bytes | None:
     """Fetch a URL with timeout and return raw bytes, or None on failure."""
-    try:
-        req = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
-        with urllib.request.urlopen(req, timeout=MAX_TIMEOUT) as resp:
-            return resp.read()
-    except Exception as exc:
-        print(f"  ✗ Failed: {exc}", file=sys.stderr)
-        return None
+    user_agents = [USER_AGENT, "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/140 Safari/537.36"]
+    last_exc: Exception | None = None
+    for user_agent in user_agents:
+        try:
+            req = urllib.request.Request(url, headers={"User-Agent": user_agent})
+            with urllib.request.urlopen(req, timeout=MAX_TIMEOUT) as resp:
+                return resp.read()
+        except Exception as exc:
+            last_exc = exc
+    print(f"  ✗ Failed: {last_exc}", file=sys.stderr)
+    return None
 
 
 def is_plain_configs(data: bytes) -> bool:
@@ -69,13 +74,26 @@ def validate_line(line: str) -> bool:
 def extract_config_lines(data: bytes) -> tuple[str, list[str]]:
     """Return (source_type, decoded_lines) for raw source bytes.
 
-    Handles plain-text subscriptions, Xray JSON node exports (served by the
-    Cloudflare Workers sources), and Base64-encoded subscriptions.
+    Handles plain-text subscriptions, HTML pages containing config links,
+    Xray JSON node exports, and Base64-encoded subscriptions.
     """
-    if is_plain_configs(data):
-        return "plain", data.decode("utf-8", errors="replace").splitlines()
-
     text = data.decode("utf-8", errors="replace")
+
+    # Some public sources publish full links in HTML attributes while showing
+    # truncated links in the table. Extract only complete attribute values.
+    if "<html" in text[:2000].lower() or "<!doctype html" in text[:2000].lower():
+        links = re.findall(
+            r'''(?:title=["']|writeText\(["'])(vless://[^"']+)["']''',
+            text,
+            flags=re.IGNORECASE,
+        )
+        links = list(dict.fromkeys(html.unescape(link) for link in links))
+        if links:
+            return "html", links
+
+    if is_plain_configs(data):
+        return "plain", text.splitlines()
+
     if text.lstrip()[:1] in "[{":
         uris = parse_xray_json(text)
         if uris:
