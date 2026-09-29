@@ -20,6 +20,7 @@ env:
     GLD3.txt GLD3_base64.txt
     GLD4.txt GLD4_base64.txt
     GLD5.txt GLD5_base64.txt
+    GLD6.txt GLD6_base64.txt
   SUBSCRIPTION_TXT_FILES: >-
     configs.txt
     GLD1.txt
@@ -27,6 +28,7 @@ env:
     GLD3.txt
     GLD4.txt
     GLD5.txt
+    GLD6.txt
 
 jobs:
   update:

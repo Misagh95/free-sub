@@ -12,6 +12,7 @@ Automatic subscription updater that fetches VPN configs from multiple Cloudflare
 | 4 | `https://raw.githubusercontent.com/Misagh95/free-sub/main/GLD3_base64.txt` | GLD3 |
 | 5 | `https://raw.githubusercontent.com/Misagh95/free-sub/main/GLD4_base64.txt` | GLD4 |
 | 6 | `https://raw.githubusercontent.com/Misagh95/free-sub/main/GLD5_base64.txt` | GLD5 |
+| 7 | `https://raw.githubusercontent.com/Misagh95/free-sub/main/GLD6_base64.txt` | GLD6 (IPSpeed VLESS + Reality) |
 
 Plain-text versions use the same filename without `_base64` (e.g. `configs.txt`, `GLD1.txt`). Copy any link above into your VPN client.
 
